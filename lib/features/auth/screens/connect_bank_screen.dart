@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../dashboard/dashboard_screen.dart';
+import 'all_set_screen.dart';
 
 class ConnectBankScreen extends StatelessWidget {
   const ConnectBankScreen({super.key});
@@ -162,7 +163,11 @@ class ConnectBankScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton.icon(
-                        onPressed: () => _goToDashboard(context),
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const AllSetScreen(),
+                          ),
+                        ),
                         icon: const Icon(Icons.play_arrow),
                         label: const Text('Skip For Now'),
                         style: OutlinedButton.styleFrom(
