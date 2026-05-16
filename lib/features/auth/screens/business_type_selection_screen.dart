@@ -1,84 +1,90 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import 'business_type_selection_screen.dart';
 import '../../dashboard/dashboard_screen.dart';
 
-class BusinessTypeScreen extends StatefulWidget {
-  const BusinessTypeScreen({super.key});
+class BusinessTypeSelectionScreen extends StatefulWidget {
+  const BusinessTypeSelectionScreen({super.key});
 
   @override
-  State<BusinessTypeScreen> createState() => _BusinessTypeScreenState();
+  State<BusinessTypeSelectionScreen> createState() =>
+      _BusinessTypeSelectionScreenState();
 }
 
-class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
-  int? _selectedIndex;
+class _BusinessTypeSelectionScreenState
+    extends State<BusinessTypeSelectionScreen> {
+  int? _selectedIndex = 0;
 
-  void _goToNext() {
+  void _onContinue() {
     if (!mounted) return;
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const BusinessTypeSelectionScreen(),
-      ),
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(builder: (_) => DashboardScreen()),
     );
   }
 
-  Widget _cardItem(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String subtitle,
-    bool selected,
-  ) {
+  Widget _optionCard({
+    required BuildContext context,
+    required int index,
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: cs.outline.withOpacity(0.6)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+    final bool selected = _selectedIndex == index;
+
+    return GestureDetector(
+      onTap: () => setState(() => _selectedIndex = index),
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: selected ? AppColors.primary.withOpacity(0.08) : cs.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected ? AppColors.primary : cs.outline.withOpacity(0.6),
+            width: selected ? 2 : 1,
           ),
-        ],
-      ),
-      padding: const EdgeInsets.all(18),
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: cs.background,
-              borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: selected
+                    ? AppColors.primary.withOpacity(0.14)
+                    : cs.background,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                icon,
+                color: selected
+                    ? AppColors.primary
+                    : cs.onSurface.withOpacity(0.8),
+              ),
             ),
-            child: Icon(icon, color: cs.onSurface.withOpacity(0.7)),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  subtitle,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: cs.onSurface.withOpacity(0.7),
+                  const SizedBox(height: 6),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: cs.onSurface.withOpacity(0.7),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -106,8 +112,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
               constraints: const BoxConstraints(maxWidth: 960),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  // progress bars
+                children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -117,7 +122,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                           width: 40,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: i == 0
+                            color: i == 1
                                 ? AppColors.primary
                                 : cs.background.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(6),
@@ -130,7 +135,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    'Welcome to LedgerFlow',
+                    'What type of business do you run?',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.w900,
@@ -138,7 +143,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Let's set up your account and get you ready to manage your business finances smartly",
+                    'This helps us customize your experience',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: cs.onSurface.withOpacity(0.72),
@@ -151,35 +156,35 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                     crossAxisSpacing: 14,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: isMobile ? 3.8 : 3.2,
-                    children: <Widget>[
-                      _cardItem(
-                        context,
-                        Icons.show_chart_rounded,
-                        'Track Financials',
-                        'Monitor your receivables and payables in real-time',
-                        false,
+                    childAspectRatio: isMobile ? 3.8 : 3.6,
+                    children: [
+                      _optionCard(
+                        context: context,
+                        index: 0,
+                        icon: Icons.precision_manufacturing,
+                        title: 'Manufacturing',
+                        subtitle: 'Produce and sell goods',
                       ),
-                      _cardItem(
-                        context,
-                        Icons.notifications_active_rounded,
-                        'Smart Reminders',
-                        'Send automated WhatsApp and email reminders',
-                        false,
+                      _optionCard(
+                        context: context,
+                        index: 1,
+                        icon: Icons.swap_horiz,
+                        title: 'Trading/Wholesale',
+                        subtitle: 'Buy and sell products in bulk',
                       ),
-                      _cardItem(
-                        context,
-                        Icons.insights_rounded,
-                        'AI Insights',
-                        'Get actionable business intelligence',
-                        false,
+                      _optionCard(
+                        context: context,
+                        index: 2,
+                        icon: Icons.miscellaneous_services,
+                        title: 'Services/Consulting',
+                        subtitle: 'Offer professional services',
                       ),
-                      _cardItem(
-                        context,
-                        Icons.group_rounded,
-                        'Manage Customers',
-                        'Organize and track all your business relationships',
-                        false,
+                      _optionCard(
+                        context: context,
+                        index: 3,
+                        icon: Icons.more_horiz,
+                        title: 'Other',
+                        subtitle: 'Any other business type',
                       ),
                     ],
                   ),
@@ -189,7 +194,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                       width: isMobile ? 240 : 160,
                       height: 48,
                       child: FilledButton.icon(
-                        onPressed: _goToNext,
+                        onPressed: _onContinue,
                         icon: const Icon(Icons.arrow_forward_rounded),
                         label: const Text(
                           'Continue',
