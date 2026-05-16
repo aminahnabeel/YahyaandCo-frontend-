@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../dashboard/dashboard_screen.dart';
-import 'notification_preferences_screen.dart';
+import 'connect_bank_screen.dart';
 
-class BusinessTypeSelectionScreen extends StatefulWidget {
-  const BusinessTypeSelectionScreen({super.key});
+class NotificationPreferencesScreen extends StatefulWidget {
+  const NotificationPreferencesScreen({super.key});
 
   @override
-  State<BusinessTypeSelectionScreen> createState() =>
-      _BusinessTypeSelectionScreenState();
+  State<NotificationPreferencesScreen> createState() =>
+      _NotificationPreferencesScreenState();
 }
 
-class _BusinessTypeSelectionScreenState
-    extends State<BusinessTypeSelectionScreen> {
-  int? _selectedIndex = 0;
+class _NotificationPreferencesScreenState
+    extends State<NotificationPreferencesScreen> {
+  int _selected = 2; // default selected: SMS
+
+  void _onSelect(int idx) => setState(() => _selected = idx);
 
   void _onContinue() {
     if (!mounted) return;
     if (!mounted) return;
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const NotificationPreferencesScreen(),
-      ),
-    );
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const ConnectBankScreen()));
   }
 
-  Widget _optionCard({
+  Widget _prefCard({
     required BuildContext context,
-    required int index,
+    required int idx,
     required IconData icon,
     required String title,
     required String subtitle,
   }) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    final bool selected = _selectedIndex == index;
+    final bool selected = _selected == idx;
 
     return GestureDetector(
-      onTap: () => setState(() => _selectedIndex = index),
+      onTap: () => _onSelect(idx),
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary.withOpacity(0.08) : cs.surface,
+          color: selected ? AppColors.primary.withOpacity(0.06) : cs.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: selected ? AppColors.primary : cs.outline.withOpacity(0.6),
@@ -87,6 +87,10 @@ class _BusinessTypeSelectionScreenState
                 ],
               ),
             ),
+            if (selected)
+              Icon(Icons.check_circle, color: AppColors.primary)
+            else
+              const SizedBox(width: 24),
           ],
         ),
       ),
@@ -126,7 +130,7 @@ class _BusinessTypeSelectionScreenState
                           width: 40,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: i == 1
+                            color: i == 2
                                 ? AppColors.primary
                                 : cs.background.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(6),
@@ -139,7 +143,7 @@ class _BusinessTypeSelectionScreenState
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    'What type of business do you run?',
+                    'Notification Preferences',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.w900,
@@ -147,52 +151,37 @@ class _BusinessTypeSelectionScreenState
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'This helps us customize your experience',
+                    'How would you like to receive payment reminders?',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: cs.onSurface.withOpacity(0.72),
                     ),
                   ),
                   const SizedBox(height: 22),
-                  GridView.count(
-                    crossAxisCount: isMobile ? 1 : 2,
-                    mainAxisSpacing: 14,
-                    crossAxisSpacing: 14,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: isMobile ? 3.8 : 3.6,
-                    children: [
-                      _optionCard(
-                        context: context,
-                        index: 0,
-                        icon: Icons.precision_manufacturing,
-                        title: 'Manufacturing',
-                        subtitle: 'Produce and sell goods',
-                      ),
-                      _optionCard(
-                        context: context,
-                        index: 1,
-                        icon: Icons.swap_horiz,
-                        title: 'Trading/Wholesale',
-                        subtitle: 'Buy and sell products in bulk',
-                      ),
-                      _optionCard(
-                        context: context,
-                        index: 2,
-                        icon: Icons.miscellaneous_services,
-                        title: 'Services/Consulting',
-                        subtitle: 'Offer professional services',
-                      ),
-                      _optionCard(
-                        context: context,
-                        index: 3,
-                        icon: Icons.more_horiz,
-                        title: 'Other',
-                        subtitle: 'Any other business type',
-                      ),
-                    ],
+                  _prefCard(
+                    context: context,
+                    idx: 0,
+                    icon: Icons.chat_bubble_outline,
+                    title: 'WhatsApp',
+                    subtitle: 'Get reminders and updates on WhatsApp',
                   ),
-                  const SizedBox(height: 26),
+                  const SizedBox(height: 12),
+                  _prefCard(
+                    context: context,
+                    idx: 1,
+                    icon: Icons.email_outlined,
+                    title: 'Email',
+                    subtitle: 'Receive detailed reports and notifications',
+                  ),
+                  const SizedBox(height: 12),
+                  _prefCard(
+                    context: context,
+                    idx: 2,
+                    icon: Icons.phone_rounded,
+                    title: 'SMS',
+                    subtitle: 'Quick text message alerts',
+                  ),
+                  const SizedBox(height: 28),
                   Center(
                     child: SizedBox(
                       width: isMobile ? 240 : 160,
