@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import 'connect_bank_screen.dart';
+import '../../../widgets/hoverable_card.dart';
 
 class NotificationPreferencesScreen extends StatefulWidget {
   const NotificationPreferencesScreen({super.key});
@@ -35,22 +36,11 @@ class _NotificationPreferencesScreenState
     final cs = theme.colorScheme;
     final bool selected = _selected == idx;
 
-    return GestureDetector(
+    return HoverableCard(
+      selected: selected,
       onTap: () => _onSelect(idx),
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: selected
-              ? AppColors.primary.withValues(alpha: 0.06)
-              : cs.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: selected
-                ? AppColors.primary
-                : cs.outline.withValues(alpha: 0.6),
-            width: selected ? 2 : 1,
-          ),
-        ),
         child: Row(
           children: [
             Container(

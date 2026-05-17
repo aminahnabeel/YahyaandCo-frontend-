@@ -23,7 +23,7 @@ class ConnectBankScreen extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
         elevation: 0,
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -48,7 +48,7 @@ class ConnectBankScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: i == 3
                                 ? AppColors.primary
-                                : cs.background.withValues(alpha: 0.6),
+                                : cs.surface.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
                               color: cs.outline.withValues(alpha: 0.5),

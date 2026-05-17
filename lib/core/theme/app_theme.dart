@@ -19,8 +19,6 @@ class AppTheme {
             onSecondary: AppColors.surfaceLight,
             surface: AppColors.surfaceDark,
             onSurface: AppColors.textPrimaryDark,
-            background: AppColors.backgroundDark,
-            onBackground: AppColors.textPrimaryDark,
             error: AppColors.error,
             onError: AppColors.surfaceLight,
             outline: AppColors.borderDark,
@@ -33,8 +31,6 @@ class AppTheme {
             onSecondary: AppColors.surfaceLight,
             surface: AppColors.surfaceLight,
             onSurface: AppColors.textPrimaryLight,
-            background: AppColors.backgroundLight,
-            onBackground: AppColors.textPrimaryLight,
             error: AppColors.error,
             onError: AppColors.surfaceLight,
             outline: AppColors.borderLight,
@@ -48,10 +44,10 @@ class AppTheme {
 
     return baseTheme.copyWith(
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarTheme(
-        backgroundColor: colorScheme.background,
-        foregroundColor: colorScheme.onBackground,
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.surface,
         elevation: 0,
         centerTitle: true,
         surfaceTintColor: Colors.transparent,
@@ -87,7 +83,9 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(28),
-          side: BorderSide(color: colorScheme.outlineVariant.withOpacity(0.5)),
+          side: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
       ),
       pageTransitionsTheme: const PageTransitionsTheme(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import 'notification_preferences_screen.dart';
+import '../../../widgets/hoverable_card.dart';
 
 class BusinessTypeSelectionScreen extends StatefulWidget {
   const BusinessTypeSelectionScreen({super.key});
@@ -35,22 +36,11 @@ class _BusinessTypeSelectionScreenState
     final cs = theme.colorScheme;
     final bool selected = _selectedIndex == index;
 
-    return GestureDetector(
+    return HoverableCard(
+      selected: selected,
       onTap: () => setState(() => _selectedIndex = index),
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: selected
-              ? AppColors.primary.withValues(alpha: 0.08)
-              : cs.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: selected
-                ? AppColors.primary
-                : cs.outline.withValues(alpha: 0.6),
-            width: selected ? 2 : 1,
-          ),
-        ),
         child: Row(
           children: [
             Container(
