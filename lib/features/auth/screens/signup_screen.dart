@@ -75,8 +75,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       context,
     ).showSnackBar(const SnackBar(content: Text('Creating account...')));
 
-    // TODO: Wire real registration API
-
     // New users should complete profile first
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
@@ -92,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
         title: const Text('Create Account'),
       ),
       body: SafeArea(
@@ -123,7 +121,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Text(
                           'Set up your ${AppStrings.appName} account',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: cs.onSurface.withOpacity(0.72)),
+                              ?.copyWith(
+                                color: cs.onSurface.withValues(alpha: 0.72),
+                              ),
                         ),
                         const SizedBox(height: 18),
                         TextFormField(
@@ -134,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hintText: 'John Doe',
                             prefixIcon: Icon(
                               Icons.person_outline,
-                              color: cs.onSurface.withOpacity(0.6),
+                              color: cs.onSurface.withValues(alpha: 0.6),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -151,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hintText: 'your@email.com',
                             prefixIcon: Icon(
                               Icons.email_outlined,
-                              color: cs.onSurface.withOpacity(0.6),
+                              color: cs.onSurface.withValues(alpha: 0.6),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -167,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hintText: 'Your Company',
                             prefixIcon: Icon(
                               Icons.apartment_outlined,
-                              color: cs.onSurface.withOpacity(0.6),
+                              color: cs.onSurface.withValues(alpha: 0.6),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -184,7 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hintText: '+91 98765 43210',
                             prefixIcon: Icon(
                               Icons.phone,
-                              color: cs.onSurface.withOpacity(0.6),
+                              color: cs.onSurface.withValues(alpha: 0.6),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -200,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             labelText: 'Password',
                             prefixIcon: Icon(
                               Icons.lock_outline,
-                              color: cs.onSurface.withOpacity(0.6),
+                              color: cs.onSurface.withValues(alpha: 0.6),
                             ),
                             suffixIcon: IconButton(
                               onPressed: () => setState(
@@ -210,7 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _obscurePassword
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined,
-                                color: cs.onSurface.withOpacity(0.6),
+                                color: cs.onSurface.withValues(alpha: 0.6),
                               ),
                             ),
                             border: OutlineInputBorder(
@@ -227,7 +227,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             labelText: 'Confirm Password',
                             prefixIcon: Icon(
                               Icons.lock_outline,
-                              color: cs.onSurface.withOpacity(0.6),
+                              color: cs.onSurface.withValues(alpha: 0.6),
                             ),
                             suffixIcon: IconButton(
                               onPressed: () => setState(
@@ -237,7 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _obscureConfirm
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined,
-                                color: cs.onSurface.withOpacity(0.6),
+                                color: cs.onSurface.withValues(alpha: 0.6),
                               ),
                             ),
                             border: OutlineInputBorder(
@@ -269,7 +269,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             text: TextSpan(
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
-                                    color: cs.onSurface.withOpacity(0.78),
+                                    color: cs.onSurface.withValues(alpha: 0.78),
                                   ),
                               children: <TextSpan>[
                                 const TextSpan(

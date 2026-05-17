@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import 'business_type_selection_screen.dart';
-import '../../dashboard/dashboard_screen.dart';
 
 class BusinessTypeScreen extends StatefulWidget {
   const BusinessTypeScreen({super.key});
@@ -11,8 +10,6 @@ class BusinessTypeScreen extends StatefulWidget {
 }
 
 class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
-  int? _selectedIndex;
-
   void _goToNext() {
     if (!mounted) return;
     Navigator.of(context).push(
@@ -35,10 +32,10 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
       decoration: BoxDecoration(
         color: cs.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: cs.outline.withOpacity(0.6)),
+        border: Border.all(color: cs.outline.withValues(alpha: 0.6)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -51,10 +48,10 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: cs.background,
+              color: cs.surface,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: cs.onSurface.withOpacity(0.7)),
+            child: Icon(icon, color: cs.onSurface.withValues(alpha: 0.7)),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -72,7 +69,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: cs.onSurface.withOpacity(0.7),
+                    color: cs.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -93,7 +90,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
       appBar: AppBar(
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
         elevation: 0,
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -119,10 +116,10 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                           decoration: BoxDecoration(
                             color: i == 0
                                 ? AppColors.primary
-                                : cs.background.withOpacity(0.6),
+                                : cs.surface.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: cs.outline.withOpacity(0.5),
+                              color: cs.outline.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -141,7 +138,7 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
                     "Let's set up your account and get you ready to manage your business finances smartly",
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: cs.onSurface.withOpacity(0.72),
+                      color: cs.onSurface.withValues(alpha: 0.72),
                     ),
                   ),
                   const SizedBox(height: 22),

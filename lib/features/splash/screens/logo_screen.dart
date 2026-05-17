@@ -51,12 +51,12 @@ class _LogoScreenState extends State<LogoScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: <Color>[
-              colorScheme.background,
+              colorScheme.surface,
               Color.alphaBlend(
-                AppColors.primary.withOpacity(0.08),
-                colorScheme.background,
+                AppColors.primary.withValues(alpha: 0.08),
+                colorScheme.surface,
               ),
-              colorScheme.background,
+              colorScheme.surface,
             ],
           ),
         ),
@@ -79,7 +79,7 @@ class _LogoScreenState extends State<LogoScreen> {
                       borderRadius: BorderRadius.circular(32),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.22),
+                          color: AppColors.primary.withValues(alpha: 0.22),
                           blurRadius: 30,
                           offset: const Offset(0, 18),
                         ),
@@ -105,7 +105,7 @@ class _LogoScreenState extends State<LogoScreen> {
                     AppStrings.logoTagline,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.72),
+                      color: colorScheme.onSurface.withValues(alpha: 0.72),
                       height: 1.4,
                     ),
                   ),

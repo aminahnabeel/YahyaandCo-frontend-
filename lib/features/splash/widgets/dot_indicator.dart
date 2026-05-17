@@ -21,7 +21,7 @@ class DotIndicator extends StatelessWidget {
         count: count,
         effect: ExpandingDotsEffect(
           activeDotColor: colorScheme.primary,
-          dotColor: colorScheme.outlineVariant.withOpacity(0.7),
+          dotColor: colorScheme.outlineVariant.withValues(alpha: 0.7),
           dotHeight: 10,
           dotWidth: 10,
           expansionFactor: 3.2,

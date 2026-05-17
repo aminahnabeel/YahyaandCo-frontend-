@@ -17,7 +17,7 @@ class AllSetScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.9),
+        color: theme.colorScheme.surface.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -33,7 +33,7 @@ class AllSetScreen extends StatelessWidget {
           Text(
             subtitle,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),
         ],
@@ -51,7 +51,7 @@ class AllSetScreen extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
         elevation: 0,
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -76,10 +76,10 @@ class AllSetScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: i == 4
                                 ? AppColors.primary
-                                : cs.background.withOpacity(0.6),
+                                : cs.surface.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: cs.outline.withOpacity(0.5),
+                              color: cs.outline.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -106,7 +106,7 @@ class AllSetScreen extends StatelessWidget {
                     "Your LedgerFlow account is ready. Let's start managing your business finances",
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: cs.onSurface.withOpacity(0.72),
+                      color: cs.onSurface.withValues(alpha: 0.72),
                     ),
                   ),
                   const SizedBox(height: 28),

@@ -48,10 +48,10 @@ class ConnectBankScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: i == 3
                                 ? AppColors.primary
-                                : cs.background.withOpacity(0.6),
+                                : cs.background.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: cs.outline.withOpacity(0.5),
+                              color: cs.outline.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -70,7 +70,7 @@ class ConnectBankScreen extends StatelessWidget {
                     'Securely connect your bank account for automated transaction tracking\n(optional)',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: cs.onSurface.withOpacity(0.72),
+                      color: cs.onSurface.withValues(alpha: 0.72),
                     ),
                   ),
                   const SizedBox(height: 22),
@@ -79,10 +79,12 @@ class ConnectBankScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: cs.surface,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: cs.outline.withOpacity(0.6)),
+                      border: Border.all(
+                        color: cs.outline.withValues(alpha: 0.6),
+                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -97,7 +99,9 @@ class ConnectBankScreen extends StatelessWidget {
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.12),
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.12,
+                                ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -119,7 +123,9 @@ class ConnectBankScreen extends StatelessWidget {
                                   Text(
                                     'Your bank credentials are encrypted and never stored. We use OAuth for secure access.',
                                     style: theme.textTheme.bodySmall?.copyWith(
-                                      color: cs.onSurface.withOpacity(0.72),
+                                      color: cs.onSurface.withValues(
+                                        alpha: 0.72,
+                                      ),
                                     ),
                                   ),
                                 ],

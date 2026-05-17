@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../dashboard/dashboard_screen.dart';
 import 'notification_preferences_screen.dart';
 
 class BusinessTypeSelectionScreen extends StatefulWidget {
@@ -41,10 +40,14 @@ class _BusinessTypeSelectionScreenState
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary.withOpacity(0.08) : cs.surface,
+          color: selected
+              ? AppColors.primary.withValues(alpha: 0.08)
+              : cs.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: selected ? AppColors.primary : cs.outline.withOpacity(0.6),
+            color: selected
+                ? AppColors.primary
+                : cs.outline.withValues(alpha: 0.6),
             width: selected ? 2 : 1,
           ),
         ),
@@ -55,15 +58,15 @@ class _BusinessTypeSelectionScreenState
               height: 44,
               decoration: BoxDecoration(
                 color: selected
-                    ? AppColors.primary.withOpacity(0.14)
-                    : cs.background,
+                    ? AppColors.primary.withValues(alpha: 0.14)
+                    : cs.surface,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 icon,
                 color: selected
                     ? AppColors.primary
-                    : cs.onSurface.withOpacity(0.8),
+                    : cs.onSurface.withValues(alpha: 0.8),
               ),
             ),
             const SizedBox(width: 14),
@@ -81,7 +84,7 @@ class _BusinessTypeSelectionScreenState
                   Text(
                     subtitle,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: cs.onSurface.withOpacity(0.7),
+                      color: cs.onSurface.withValues(alpha: 0.7),
                     ),
                   ),
                 ],
@@ -103,7 +106,7 @@ class _BusinessTypeSelectionScreenState
       appBar: AppBar(
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
         elevation: 0,
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -128,10 +131,10 @@ class _BusinessTypeSelectionScreenState
                           decoration: BoxDecoration(
                             color: i == 1
                                 ? AppColors.primary
-                                : cs.background.withOpacity(0.6),
+                                : cs.surface.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: cs.outline.withOpacity(0.5),
+                              color: cs.outline.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -150,7 +153,7 @@ class _BusinessTypeSelectionScreenState
                     'This helps us customize your experience',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: cs.onSurface.withOpacity(0.72),
+                      color: cs.onSurface.withValues(alpha: 0.72),
                     ),
                   ),
                   const SizedBox(height: 22),

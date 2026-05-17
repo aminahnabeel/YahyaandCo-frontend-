@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -17,7 +16,9 @@ class DashboardScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+        border: Border.all(
+          color: theme.colorScheme.outline.withValues(alpha: 0.6),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +43,7 @@ class DashboardScreen extends StatelessWidget {
                 width: 10,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: accent.withOpacity(0.12),
+                  color: accent.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -68,16 +69,16 @@ class DashboardScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.12)),
+        border: Border.all(color: color.withValues(alpha: 0.12)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.14),
+              color: color.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: color),
@@ -107,7 +108,7 @@ class DashboardScreen extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundColor: theme.colorScheme.background,
+            backgroundColor: theme.colorScheme.surface,
             child: Text(title[0]),
           ),
           const SizedBox(width: 12),
@@ -125,7 +126,7 @@ class DashboardScreen extends StatelessWidget {
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -162,7 +163,7 @@ class DashboardScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: color),
@@ -184,7 +185,7 @@ class DashboardScreen extends StatelessWidget {
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                   softWrap: true,
                   overflow: TextOverflow.visible,
@@ -335,42 +336,18 @@ class DashboardScreen extends StatelessWidget {
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final maxW = constraints.maxWidth;
-                      if (maxW < 640) {
-                        return Column(
-                          children: [
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(minWidth: double.infinity),
-                              child: _featureCard(
-                                context,
-                                'Add New Customer',
-                                'Start tracking with new business relationships',
-                                Icons.person_add,
-                                Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(minWidth: double.infinity),
-                              child: _featureCard(
-                                context,
-                                'Create Reminder',
-                                'Set up automated payment reminders',
-                                Icons.notifications,
-                                Colors.orange,
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-
-                      final half = (maxW - 12) / 2;
+                      final cardGap = maxW < 640 ? 8.0 : 12.0;
+                      final cardWidth = (maxW - cardGap) / 2;
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Flexible(
                             fit: FlexFit.loose,
                             child: ConstrainedBox(
-                              constraints: BoxConstraints(minWidth: 300, maxWidth: half),
+                              constraints: BoxConstraints(
+                                minWidth: cardWidth,
+                                maxWidth: cardWidth,
+                              ),
                               child: _featureCard(
                                 context,
                                 'Add New Customer',
@@ -380,11 +357,14 @@ class DashboardScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: cardGap),
                           Flexible(
                             fit: FlexFit.loose,
                             child: ConstrainedBox(
-                              constraints: BoxConstraints(minWidth: 300, maxWidth: half),
+                              constraints: BoxConstraints(
+                                minWidth: cardWidth,
+                                maxWidth: cardWidth,
+                              ),
                               child: _featureCard(
                                 context,
                                 'Create Reminder',

@@ -37,12 +37,12 @@ class SplashPage extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: <Color>[
-            colorScheme.background,
+            colorScheme.surface,
             Color.alphaBlend(
-              model.accentColor.withOpacity(0.06),
-              colorScheme.background,
+              model.accentColor.withValues(alpha: 0.06),
+              colorScheme.surface,
             ),
-            colorScheme.background,
+            colorScheme.surface,
           ],
         ),
       ),
@@ -70,7 +70,7 @@ class SplashPage extends StatelessWidget {
                 model.subtitle,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.75),
+                  color: colorScheme.onSurface.withValues(alpha: 0.75),
                   height: 1.45,
                 ),
               ),
@@ -158,7 +158,7 @@ class _IllustrationPanel extends StatelessWidget {
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: model.accentColor.withOpacity(0.18),
+              color: model.accentColor.withValues(alpha: 0.18),
               blurRadius: 36,
               offset: const Offset(0, 20),
             ),
@@ -170,7 +170,7 @@ class _IllustrationPanel extends StatelessWidget {
               top: 22,
               right: 22,
               child: _GlowBubble(
-                color: colorScheme.onPrimary.withOpacity(0.18),
+                color: colorScheme.onPrimary.withValues(alpha: 0.18),
                 size: 56,
               ),
             ),
@@ -178,7 +178,7 @@ class _IllustrationPanel extends StatelessWidget {
               bottom: 28,
               left: 22,
               child: _GlowBubble(
-                color: colorScheme.onPrimary.withOpacity(0.14),
+                color: colorScheme.onPrimary.withValues(alpha: 0.14),
                 size: 38,
               ),
             ),
@@ -192,10 +192,10 @@ class _IllustrationPanel extends StatelessWidget {
                       width: 72,
                       height: 72,
                       decoration: BoxDecoration(
-                        color: colorScheme.onPrimary.withOpacity(0.16),
+                        color: colorScheme.onPrimary.withValues(alpha: 0.16),
                         borderRadius: BorderRadius.circular(22),
                         border: Border.all(
-                          color: colorScheme.onPrimary.withOpacity(0.22),
+                          color: colorScheme.onPrimary.withValues(alpha: 0.22),
                         ),
                       ),
                       child: Icon(
@@ -209,10 +209,10 @@ class _IllustrationPanel extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                        color: colorScheme.surface.withOpacity(0.12),
+                        color: colorScheme.surface.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: colorScheme.onPrimary.withOpacity(0.14),
+                          color: colorScheme.onPrimary.withValues(alpha: 0.14),
                         ),
                       ),
                       child: Column(
@@ -228,8 +228,9 @@ class _IllustrationPanel extends StatelessWidget {
                             child: LinearProgressIndicator(
                               minHeight: 10,
                               value: 0.76,
-                              backgroundColor: colorScheme.onPrimary
-                                  .withOpacity(0.12),
+                              backgroundColor: colorScheme.onPrimary.withValues(
+                                alpha: 0.12,
+                              ),
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 colorScheme.onPrimary,
                               ),
@@ -263,7 +264,7 @@ class _IllustrationPanel extends StatelessWidget {
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
-                          color: colorScheme.onPrimary.withOpacity(0.14),
+                          color: colorScheme.onPrimary.withValues(alpha: 0.14),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Text(
@@ -322,7 +323,7 @@ class _MetricRow extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: color.withOpacity(0.84),
+            color: color.withValues(alpha: 0.84),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -355,7 +356,7 @@ class _MiniStat extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: AppColors.surfaceLight.withOpacity(0.12),
+          color: AppColors.surfaceLight.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(18),
         ),
         child: Column(
@@ -363,9 +364,9 @@ class _MiniStat extends StatelessWidget {
           children: <Widget>[
             Text(
               label,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: color.withOpacity(0.8)),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: color.withValues(alpha: 0.8),
+              ),
             ),
             const SizedBox(height: 4),
             Text(

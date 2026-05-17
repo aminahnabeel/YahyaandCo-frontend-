@@ -36,7 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Signing in...')));
-      // TODO: Replace with real authentication logic.
       _postAuthRedirect();
     }
   }
@@ -44,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _postAuthRedirect() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool done = prefs.getBool('hasCompletedProfile') ?? false;
+    if (!mounted) return;
     if (done) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(builder: (_) => DashboardScreen()),
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Sign in to your ${AppStrings.appName} account',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: cs.onSurface.withOpacity(0.72),
+                          color: cs.onSurface.withValues(alpha: 0.72),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -119,23 +119,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: _validateEmail,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: cs.surface.withOpacity(0.96),
+                                fillColor: cs.surface.withValues(alpha: 0.96),
                                 prefixIcon: Icon(
                                   Icons.email_outlined,
-                                  color: cs.onSurface.withOpacity(0.6),
+                                  color: cs.onSurface.withValues(alpha: 0.6),
                                 ),
                                 hintText: 'your@email.com',
                                 labelText: 'Email Address',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   borderSide: BorderSide(
-                                    color: cs.outline.withOpacity(0.8),
+                                    color: cs.outline.withValues(alpha: 0.8),
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   borderSide: BorderSide(
-                                    color: cs.outline.withOpacity(0.6),
+                                    color: cs.outline.withValues(alpha: 0.6),
                                   ),
                                 ),
                               ),
@@ -147,10 +147,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: _validatePassword,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: cs.surface.withOpacity(0.96),
+                                fillColor: cs.surface.withValues(alpha: 0.96),
                                 prefixIcon: Icon(
                                   Icons.lock_outline,
-                                  color: cs.onSurface.withOpacity(0.6),
+                                  color: cs.onSurface.withValues(alpha: 0.6),
                                 ),
                                 hintText: '••••••••',
                                 labelText: 'Password',
@@ -160,19 +160,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _obscure
                                         ? Icons.visibility_outlined
                                         : Icons.visibility_off_outlined,
-                                    color: cs.onSurface.withOpacity(0.6),
+                                    color: cs.onSurface.withValues(alpha: 0.6),
                                   ),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   borderSide: BorderSide(
-                                    color: cs.outline.withOpacity(0.8),
+                                    color: cs.outline.withValues(alpha: 0.8),
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   borderSide: BorderSide(
-                                    color: cs.outline.withOpacity(0.6),
+                                    color: cs.outline.withValues(alpha: 0.6),
                                   ),
                                 ),
                               ),
@@ -205,7 +205,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyMedium
                                     ?.copyWith(
-                                      color: cs.onSurface.withOpacity(0.78),
+                                      color: cs.onSurface.withValues(
+                                        alpha: 0.78,
+                                      ),
                                     ),
                                 children: <TextSpan>[
                                   const TextSpan(
