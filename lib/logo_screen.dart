@@ -1,7 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-class LogoScreen extends StatelessWidget {
+import 'splash_screen.dart';
+
+class LogoScreen extends StatefulWidget {
   const LogoScreen({super.key});
+
+  @override
+  State<LogoScreen> createState() => _LogoScreenState();
+}
+
+class _LogoScreenState extends State<LogoScreen> {
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(const Duration(seconds: 5), _goNext);
+  }
+
+  void _goNext() {
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const IntroScreen()));
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +43,8 @@ class LogoScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Image.asset(
               'assets/logo.png',
-              width: 340,
-              height: 340,
+              width: 360,
+              height: 360,
               fit: BoxFit.contain,
             ),
           ),
