@@ -8,6 +8,7 @@ class AppTheme {
   static const Color blue = Color(0xFF1E4ED8);
   static const Color white = Colors.white;
   static const Color black = Colors.black;
+  static const double buttonRadius = 14;
 
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
@@ -30,6 +31,9 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: navyBlue,
         foregroundColor: white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonRadius),
+        ),
       ),
     ),
   );
@@ -55,6 +59,9 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: blue,
         foregroundColor: white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonRadius),
+        ),
       ),
     ),
   );

@@ -16,6 +16,8 @@ class RoundedPrimaryButton extends StatelessWidget {
   final bool fullWidth;
   final double height;
 
+  static const double _borderRadius = 14;
+
   @override
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
@@ -28,7 +30,7 @@ class RoundedPrimaryButton extends StatelessWidget {
         minimumSize: Size(0, height),
         padding: const EdgeInsets.symmetric(horizontal: 24),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(_borderRadius),
         ),
       ),
       child: Row(
