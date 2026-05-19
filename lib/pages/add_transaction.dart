@@ -52,8 +52,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final accounts = ['Main Bank Account', 'Cash Account', 'Customer Account'];
-    final paymentMethods = ['Cash', 'Card', 'Bank Transfer'];
+    final accounts = ['Main Bank Account', 'Cash in Hand', 'Savings Account'];
+    final paymentMethods = ['Cash', 'Bank Transfer', 'Check', 'Digital Wallet'];
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -151,7 +151,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(Icons.remove, color: Colors.blue),
+                                  Icon(Icons.remove, color: theme.colorScheme.primary),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Debit',
@@ -185,7 +185,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(Icons.add, color: Colors.purple),
+                                  Icon(Icons.add, color: theme.colorScheme.secondary),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Credit',
