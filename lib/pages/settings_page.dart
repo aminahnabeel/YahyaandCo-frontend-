@@ -234,7 +234,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushAndRemoveUntil(
+                    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                       MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
                       (route) => false,
                     );
