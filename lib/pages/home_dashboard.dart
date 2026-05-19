@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
+import 'add_transaction.dart';
 
 class HomeDashboard extends StatelessWidget {
   final String businessName;
@@ -11,7 +12,15 @@ class HomeDashboard extends StatelessWidget {
     return SizedBox(
       height: 46,
       child: OutlinedButton.icon(
-        onPressed: () {},
+        onPressed: () async {
+          if (label == 'Add Transaction') {
+            await Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const AddTransactionPage()),
+            );
+            // Optionally handle returned data
+            return;
+          }
+        },
         icon: Icon(icon, size: 18, color: theme.colorScheme.primary),
         label: Text(label),
         style: OutlinedButton.styleFrom(

@@ -4,6 +4,7 @@ import 'pages/transactions_page.dart';
 import 'pages/accounts_page.dart';
 import 'pages/reports_page.dart';
 import 'pages/settings_page.dart';
+import 'widgets/appbar.dart';
 
 class DashboardMainScreen extends StatefulWidget {
   final String businessName;
@@ -76,39 +77,9 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          toolbarHeight: 76,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 16, 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _tabTitles[_currentIndex],
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    widget.businessName,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onPrimary.withValues(alpha: 0.72),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        appBar: CustomAppBar(
+          title: _tabTitles[_currentIndex],
+          showTitle: true,
         ),
         body: Stack(
           children: List.generate(
