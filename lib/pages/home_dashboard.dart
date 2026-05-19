@@ -169,7 +169,7 @@ class HomeDashboard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _actionButton(context, 'Reports', Icons.bar_chart),
+                  child: _actionButton(context, 'Ledger', Icons.account_balance_wallet),
                 ),
               ],
             ),
