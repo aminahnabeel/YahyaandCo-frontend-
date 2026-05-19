@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
+import 'add_account.dart';
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
@@ -86,7 +87,11 @@ class AccountsPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(builder: (_) => const AddAccountPage()),
+          );
+        },
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
