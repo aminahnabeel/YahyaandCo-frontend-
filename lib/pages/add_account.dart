@@ -14,7 +14,14 @@ class _AddAccountPageState extends State<AddAccountPage> {
   String _currency = 'INR (₹)';
   String _accountType = 'Bank';
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
   final TextEditingController _openingBalanceController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _openingBalanceController.text = '0.00';
+  }
 
   @override
   void dispose() {
@@ -58,13 +65,15 @@ class _AddAccountPageState extends State<AddAccountPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text('Currency', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+                      Text('Account Name', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 8),
-                      DropdownButtonFormField<String>(
-                        value: _currency,
-                        items: currencies.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
-                        onChanged: (v) => setState(() => _currency = v ?? _currency),
-                        decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+                      TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          hintText: 'e.g., Main Bank Account',
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                        ),
                       ),
                       const SizedBox(height: 12),
 
@@ -78,10 +87,24 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       ),
                       const SizedBox(height: 12),
 
-                      Text('Account Name', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+                      Text('Account Code', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 8),
                       TextField(
-                        controller: _nameController,
+                        controller: _codeController,
+                        decoration: InputDecoration(
+                          hintText: 'e.g., ACC-001',
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
+                      Text('Currency', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 8),
+                      DropdownButtonFormField<String>(
+                        value: _currency,
+                        items: currencies.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+                        onChanged: (v) => setState(() => _currency = v ?? _currency),
                         decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
                       ),
                       const SizedBox(height: 12),
@@ -91,14 +114,32 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       TextField(
                         controller: _openingBalanceController,
                         keyboardType: TextInputType.numberWithOptions(decimal: true),
-                        decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+                        decoration: InputDecoration(
+                          hintText: '0.00',
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 18),
-              RoundedPrimaryButton(label: 'Save Account', onPressed: _save, fullWidth: true),
+              RoundedPrimaryButton(label: 'Create Account', onPressed: _save, fullWidth: true),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.surfaceVariant,
+                    foregroundColor: theme.colorScheme.onSurface,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ),
             ],
           ),
         ),
