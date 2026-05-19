@@ -3,6 +3,7 @@ import '../theme.dart';
 import 'add_transaction.dart';
 import 'add_account.dart';
 import 'reports_page.dart';
+import 'ledger_accounts_page.dart';
 import 'journal_entry.dart';
 
 class HomeDashboard extends StatelessWidget {
@@ -30,10 +31,12 @@ class HomeDashboard extends StatelessWidget {
             ).push(MaterialPageRoute(builder: (_) => const AddAccountPage()));
             return;
           }
-          if (label == 'Reports') {
-            await Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(builder: (_) => const ReportsPage()),
-            );
+          if (label == 'Ledger' || label == 'Reports') {
+            // support both labels while migrating to Ledger
+            await Navigator.of(
+              context,
+              rootNavigator: true,
+            ).push(MaterialPageRoute(builder: (_) => const LedgerAccountsPage()));
             return;
           }
           if (label == 'Journal Entry') {
