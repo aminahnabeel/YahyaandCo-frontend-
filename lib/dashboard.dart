@@ -77,10 +77,7 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: CustomAppBar(
-          title: _tabTitles[_currentIndex],
-          showTitle: true,
-        ),
+        appBar: CustomAppBar(title: _tabTitles[_currentIndex], showTitle: true),
         body: Stack(
           children: List.generate(
             pages.length,

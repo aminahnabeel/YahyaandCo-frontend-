@@ -151,7 +151,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.remove, color: theme.colorScheme.primary),
+                                  Icon(
+                                    Icons.remove,
+                                    color: theme.colorScheme.primary,
+                                  ),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Debit',
@@ -185,7 +188,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.add, color: theme.colorScheme.secondary),
+                                  Icon(
+                                    Icons.add,
+                                    color: theme.colorScheme.secondary,
+                                  ),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Credit',

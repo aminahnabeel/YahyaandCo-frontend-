@@ -13,7 +13,7 @@ class HomeDashboard extends StatelessWidget {
       height: 46,
       child: OutlinedButton.icon(
         onPressed: () async {
-            if (label == 'Add Transaction') {
+          if (label == 'Add Transaction') {
             await Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(builder: (_) => const AddTransactionPage()),
             );
