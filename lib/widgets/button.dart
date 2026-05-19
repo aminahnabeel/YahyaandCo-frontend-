@@ -26,7 +26,7 @@ class RoundedPrimaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: primary,
-        foregroundColor: Colors.white,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         minimumSize: Size(0, height),
         padding: const EdgeInsets.symmetric(horizontal: 24),
         shape: RoundedRectangleBorder(

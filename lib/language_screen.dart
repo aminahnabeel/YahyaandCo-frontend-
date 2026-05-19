@@ -42,7 +42,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
           );
         },
       ),
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Directionality(
           textDirection: TextDirection.ltr,
@@ -57,7 +57,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF101828),
+                    color: Theme.of(context).colorScheme.onSurface,
                     height: 1.15,
                   ),
                 ),
@@ -66,7 +66,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   strings.chooseLanguageSubtitle,
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF667085),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.65),
                     height: 1.5,
                   ),
                 ),
@@ -142,17 +144,19 @@ class _LanguageCard extends StatelessWidget {
           curve: Curves.easeOut,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFFF3F7FF) : Colors.white,
+            color: isSelected
+                ? primary.withValues(alpha: 0.06)
+                : Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: isSelected ? primary : const Color(0xFFE5E7EB),
+              color: isSelected ? primary : Theme.of(context).dividerColor,
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
                 color: isSelected
-                    ? primary.withOpacity(0.08)
-                    : Colors.black.withOpacity(0.04),
+                    ? primary.withValues(alpha: 0.08)
+                    : Theme.of(context).shadowColor.withValues(alpha: 0.04),
                 blurRadius: isSelected ? 16 : 10,
                 offset: const Offset(0, 3),
               ),
@@ -164,9 +168,9 @@ class _LanguageCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                  border: Border.all(color: Theme.of(context).dividerColor),
                 ),
                 alignment: Alignment.center,
                 child: Text(flag, style: const TextStyle(fontSize: 28)),
@@ -178,7 +182,7 @@ class _LanguageCard extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFF101828),
+                    color: Theme.of(context).colorScheme.onSurface,
                     height: 1.2,
                   ),
                 ),

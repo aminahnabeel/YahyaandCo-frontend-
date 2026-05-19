@@ -6,6 +6,8 @@ class AppTheme {
   static const Color navyBlue = Color(0xFF102A56);
   static const Color darkBlue = Color(0xFF0B1F4B);
   static const Color blue = Color(0xFF1E4ED8);
+  static const Color success = Color(0xFF16A34A);
+  static const Color warning = Color(0xFFFB923C);
   static const Color white = Colors.white;
   static const Color black = Colors.black;
   static const double buttonRadius = 14;

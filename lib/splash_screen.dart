@@ -12,14 +12,14 @@ class IntroScreen extends StatelessWidget {
 
     final titleStyle = Theme.of(context).textTheme.headlineMedium?.copyWith(
       fontWeight: FontWeight.w800,
-      color: const Color(0xFF101828),
+      color: colorScheme.onSurface,
       fontSize: 30,
       height: 1.15,
       letterSpacing: -0.4,
     );
 
     final subtitleStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
-      color: const Color(0xFF475467),
+      color: colorScheme.onSurface.withValues(alpha: 0.65),
       fontSize: 15,
       height: 1.7,
       letterSpacing: 0.1,
@@ -59,11 +59,13 @@ class IntroScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(22, 28, 22, 24),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(22),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Theme.of(
+                          context,
+                        ).shadowColor.withValues(alpha: 0.05),
                         blurRadius: 18,
                         offset: const Offset(0, 8),
                       ),
@@ -89,7 +91,7 @@ class IntroScreen extends StatelessWidget {
                         width: 72,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: colorScheme.primary.withOpacity(0.14),
+                          color: colorScheme.primary.withValues(alpha: 0.14),
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),
@@ -101,7 +103,9 @@ class IntroScreen extends StatelessWidget {
                         height: 52,
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (_) => const LanguageScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const LanguageScreen(),
+                            ),
                           );
                         },
                       ),

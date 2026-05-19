@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_language.dart';
 import 'widgets/appbar.dart';
+import 'login_screen.dart';
 import 'widgets/button.dart';
 
 class EmailScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _EmailScreenState extends State<EmailScreen> {
     final strings = appLanguageController.strings;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: CustomAppBar(
         showTitle: false,
         onBackPressed: () {
@@ -54,7 +55,7 @@ class _EmailScreenState extends State<EmailScreen> {
                     strings.emailTitle,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF0F1724),
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 30,
                     ),
                     textAlign: TextAlign.left,
@@ -66,7 +67,9 @@ class _EmailScreenState extends State<EmailScreen> {
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.06),
+                          color: Theme.of(
+                            context,
+                          ).shadowColor.withValues(alpha: 0.06),
                           blurRadius: 10,
                           offset: const Offset(0, 3),
                         ),
@@ -77,14 +80,21 @@ class _EmailScreenState extends State<EmailScreen> {
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                         hintText: strings.emailPlaceholder,
-                        hintStyle: const TextStyle(color: Color(0xFF9EA9B2)),
+                        hintStyle: TextStyle(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.45),
+                        ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).colorScheme.surface,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 18,
+                        ),
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
@@ -96,7 +106,9 @@ class _EmailScreenState extends State<EmailScreen> {
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.06),
+                          color: Theme.of(
+                            context,
+                          ).shadowColor.withValues(alpha: 0.06),
                           blurRadius: 10,
                           offset: const Offset(0, 3),
                         ),
@@ -108,14 +120,21 @@ class _EmailScreenState extends State<EmailScreen> {
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                         hintText: strings.passwordPlaceholder,
-                        hintStyle: const TextStyle(color: Color(0xFF9EA9B2)),
+                        hintStyle: TextStyle(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.45),
+                        ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).colorScheme.surface,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 18,
+                        ),
                       ),
                     ),
                   ),
@@ -141,21 +160,29 @@ class _EmailScreenState extends State<EmailScreen> {
                       children: [
                         Text(
                           strings.alreadyHaveAccount,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFF475467),
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.65),
+                              ),
                         ),
                         const SizedBox(width: 8),
                         GestureDetector(
                           onTap: () {
-                            // Navigate to sign in
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const LoginScreen(),
+                              ),
+                            );
                           },
                           child: Text(
                             strings.signIn,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ),
                       ],
