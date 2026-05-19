@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 import 'add_transaction.dart';
 import 'add_account.dart';
+import 'reports_page.dart';
+import 'journal_entry.dart';
 
 class HomeDashboard extends StatelessWidget {
   final String businessName;
@@ -22,9 +24,23 @@ class HomeDashboard extends StatelessWidget {
           }
 
           if (label == 'Add Account') {
+            await Navigator.of(
+              context,
+              rootNavigator: true,
+            ).push(MaterialPageRoute(builder: (_) => const AddAccountPage()));
+            return;
+          }
+          if (label == 'Reports') {
             await Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(builder: (_) => const AddAccountPage()),
+              MaterialPageRoute(builder: (_) => const ReportsPage()),
             );
+            return;
+          }
+          if (label == 'Journal Entry') {
+            await Navigator.of(
+              context,
+              rootNavigator: true,
+            ).push(MaterialPageRoute(builder: (_) => const JournalEntryPage()));
             return;
           }
         },
