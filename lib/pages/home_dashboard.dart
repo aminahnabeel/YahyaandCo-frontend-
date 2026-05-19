@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import 'add_transaction.dart';
+import 'add_account.dart';
 
 class HomeDashboard extends StatelessWidget {
   final String businessName;
@@ -17,7 +18,13 @@ class HomeDashboard extends StatelessWidget {
             await Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(builder: (_) => const AddTransactionPage()),
             );
-            // Optionally handle returned data
+            return;
+          }
+
+          if (label == 'Add Account') {
+            await Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(builder: (_) => const AddAccountPage()),
+            );
             return;
           }
         },
