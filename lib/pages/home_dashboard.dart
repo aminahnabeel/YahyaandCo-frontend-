@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 import 'add_transaction.dart';
 import 'add_account.dart';
-import 'reports_page.dart';
 import 'ledger_accounts_page.dart';
-import 'journal_entry.dart';
+import 'journal_list_page.dart';
 
 class HomeDashboard extends StatelessWidget {
   final String businessName;
@@ -33,17 +32,16 @@ class HomeDashboard extends StatelessWidget {
           }
           if (label == 'Ledger' || label == 'Reports') {
             // support both labels while migrating to Ledger
-            await Navigator.of(
-              context,
-              rootNavigator: true,
-            ).push(MaterialPageRoute(builder: (_) => const LedgerAccountsPage()));
+            await Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(builder: (_) => const LedgerAccountsPage()),
+            );
             return;
           }
           if (label == 'Journal Entry') {
             await Navigator.of(
               context,
               rootNavigator: true,
-            ).push(MaterialPageRoute(builder: (_) => const JournalEntryPage()));
+            ).push(MaterialPageRoute(builder: (_) => const JournalListPage()));
             return;
           }
         },
@@ -169,7 +167,11 @@ class HomeDashboard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _actionButton(context, 'Ledger', Icons.account_balance_wallet),
+                  child: _actionButton(
+                    context,
+                    'Ledger',
+                    Icons.account_balance_wallet,
+                  ),
                 ),
               ],
             ),
