@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme_controller.dart';
+import '../login_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -232,7 +233,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
+                      (route) => false,
+                    );
+                  },
                   child: Text(
                     'Logout',
                     style: TextStyle(
