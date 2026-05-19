@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme_controller.dart';
 import '../login_screen.dart';
+import '../widgets/button.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -225,27 +226,15 @@ class _SettingsPageState extends State<SettingsPage> {
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+                child: RoundedPrimaryButton(
+                  label: 'Logout',
+                  fullWidth: true,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                       MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
                       (route) => false,
                     );
                   },
-                  child: Text(
-                    'Logout',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onError,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
                 ),
               ),
             ],

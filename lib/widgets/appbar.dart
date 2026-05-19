@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       textDirection: TextDirection.ltr,
       child: AppBar(
         automaticallyImplyLeading: false,
-        centerTitle: false,
+        centerTitle: true,
         leadingWidth: onBackPressed != null ? 56 : 0,
         leading: onBackPressed != null
             ? IconButton(

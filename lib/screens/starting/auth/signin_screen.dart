@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'select_business.dart';
+import 'widgets/button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -50,7 +51,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
+                  RoundedPrimaryButton(
+                    label: 'Login',
+                    fullWidth: true,
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute<void>(
@@ -58,7 +61,6 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text('Login'),
                   ),
                 ],
               ),

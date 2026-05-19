@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_language.dart';
-import 'splash_screen.dart';
+import 'logo_screen.dart';
 import 'theme.dart';
 import 'theme_controller.dart';
 
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              home: const IntroScreen(),
+              home: const LogoScreen(),
             );
           },
         );

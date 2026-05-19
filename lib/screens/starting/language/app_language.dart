@@ -20,7 +20,8 @@ class AppLanguageController extends ValueNotifier<AppLanguage> {
   AppStrings get strings => AppStrings.fromLanguage(value);
 }
 
-final AppLanguageController appLanguageController = AppLanguageController();
+final AppLanguageController appLanguageController =
+    AppLanguageController();
 
 class AppStrings {
   const AppStrings({
@@ -36,6 +37,7 @@ class AppStrings {
     required this.emailTitle,
     required this.emailPlaceholder,
     required this.passwordPlaceholder,
+    required this.namePlaceholder, // ✅ ADDED
     required this.alreadyHaveAccount,
     required this.signIn,
     required this.nextButton,
@@ -53,6 +55,7 @@ class AppStrings {
   final String emailTitle;
   final String emailPlaceholder;
   final String passwordPlaceholder;
+  final String namePlaceholder; // ✅ ADDED
   final String alreadyHaveAccount;
   final String signIn;
   final String nextButton;
@@ -63,7 +66,8 @@ class AppStrings {
         return const AppStrings(
           appTitle: 'Yahya & Co',
           chooseLanguageTitle: 'Choose Language',
-          chooseLanguageSubtitle: 'Select the language you want to use in the app.',
+          chooseLanguageSubtitle:
+              'Select the language you want to use in the app.',
           englishOption: 'English',
           romanUrduOption: 'Roman Urdu',
           continueButton: 'Continue',
@@ -73,24 +77,29 @@ class AppStrings {
           emailTitle: 'Create Account',
           emailPlaceholder: 'Enter Email Address',
           passwordPlaceholder: 'Enter Password',
+          namePlaceholder: 'Enter Your Name', // ✅ ADDED
           alreadyHaveAccount: 'Already have an account?',
           signIn: 'Sign In',
           nextButton: 'Next',
         );
+
       case AppLanguage.romanUrdu:
         return const AppStrings(
           appTitle: 'Yahya & Co',
           chooseLanguageTitle: 'Zaban muntakhib karein',
-          chooseLanguageSubtitle: 'App ke liye apni zaban select karein.',
+          chooseLanguageSubtitle:
+              'App ke liye apni zaban select karein.',
           englishOption: 'English',
           romanUrduOption: 'Roman Urdu',
           continueButton: 'Aagay barhein',
           homeTitle: 'Markazi Safha',
-          homeMessage: 'Aap ab app ko Roman Urdu mein istemal kar rahe hain.',
+          homeMessage:
+              'Aap ab app ko Roman Urdu mein istemal kar rahe hain.',
           homeAction: 'App istemal karna shuru karein',
           emailTitle: 'Account Banayein',
           emailPlaceholder: 'Email Address Darj Karein',
           passwordPlaceholder: 'Password Darj Karein',
+          namePlaceholder: 'Apna naam likhein', // ✅ ADDED
           alreadyHaveAccount: 'Pehle se account hai?',
           signIn: 'Log In Karein',
           nextButton: 'Aagay',

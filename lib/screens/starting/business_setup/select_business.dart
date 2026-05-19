@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
+import 'widgets/button.dart';
 
 class LogoScreen extends StatefulWidget {
   const LogoScreen({super.key});
@@ -68,27 +69,31 @@ class _LogoScreenState extends State<LogoScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  final name = _nameController.text.trim();
-                  final type = _typeController.text.trim();
+              // Use shared RoundedPrimaryButton
+              Builder(builder: (ctx) {
+                return RoundedPrimaryButton(
+                  label: 'Save Business',
+                  fullWidth: true,
+                  onPressed: () {
+                    final name = _nameController.text.trim();
+                    final type = _typeController.text.trim();
 
-                  if (name.isEmpty || type.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Enter both name and business type.'),
-                      ),
-                    );
-                    return;
-                  }
+                    if (name.isEmpty || type.isEmpty) {
+                      ScaffoldMessenger.of(ctx).showSnackBar(
+                        const SnackBar(
+                          content: Text('Enter both name and business type.'),
+                        ),
+                      );
+                      return;
+                    }
 
-                  setState(() {
-                    _businesses.add(_BusinessItem(name, type));
-                  });
-                  Navigator.of(sheetContext).pop();
-                },
-                child: const Text('Save Business'),
-              ),
+                    setState(() {
+                      _businesses.add(_BusinessItem(name, type));
+                    });
+                    Navigator.of(sheetContext).pop();
+                  },
+                );
+              }),
             ],
           ),
         );
