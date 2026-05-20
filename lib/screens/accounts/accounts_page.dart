@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme.dart';
+import '../../theme/theme.dart';
 import 'add_account.dart';
 
 class AccountsPage extends StatelessWidget {

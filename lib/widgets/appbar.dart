@@ -6,11 +6,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.onBackPressed,
     this.showTitle = true,
+    this.actions,
   });
 
   final String? title;
   final VoidCallback? onBackPressed;
   final bool showTitle;
+  final List<Widget>? actions;
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
@@ -41,6 +43,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               )
             : null,
         titleSpacing: 0,
+        actions: actions,
       ),
     );
   }

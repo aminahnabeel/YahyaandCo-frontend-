@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../starting/language/app_language.dart';
 import '../../theme/theme_controller.dart';
 import '../../widgets/button.dart';
 import '../starting/auth/signin_screen.dart';
@@ -75,6 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = appLanguageController.strings;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -96,13 +98,13 @@ class _SettingsPageState extends State<SettingsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'John Doe',
+                              strings.profileName,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w700),
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'john@example.com',
+                              strings.profileEmail,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],
@@ -113,7 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
 
-              _sectionTitle('Preferences'),
+              _sectionTitle(strings.preferencesSection),
               Card(
                 margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
                 shape: RoundedRectangleBorder(
@@ -122,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: SwitchListTile.adaptive(
                   secondary: const SizedBox(width: 36),
                   title: Text(
-                    'Notifications',
+                    strings.notificationsLabel,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -140,7 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: SwitchListTile.adaptive(
                   secondary: const SizedBox(width: 36),
                   title: Text(
-                    'Dark Mode',
+                    strings.darkModeLabel,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -161,7 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: SwitchListTile.adaptive(
                   secondary: const SizedBox(width: 36),
                   title: Text(
-                    'Two-Factor Auth',
+                    strings.twoFactorLabel,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -172,13 +174,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
 
-              _sectionTitle('Account'),
+              _sectionTitle(strings.accountSection),
               _tile(
                 leading: Icon(
                   Icons.lock_outline,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: 'Change Password',
+                title: strings.changePasswordLabel,
                 onTap: () {},
               ),
               _tile(
@@ -186,7 +188,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.email_outlined,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: 'Email Preferences',
+                title: strings.emailPreferencesLabel,
                 onTap: () {},
               ),
               _tile(
@@ -194,17 +196,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.business,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: 'Manage Businesses',
+                title: strings.manageBusinessesLabel,
                 onTap: () {},
               ),
 
-              _sectionTitle('Information'),
+              _sectionTitle(strings.informationSection),
               _tile(
                 leading: Icon(
                   Icons.info_outline,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: 'About Ledger App',
+                title: strings.aboutLedgerAppLabel,
                 onTap: () {},
               ),
               _tile(
@@ -212,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.article_outlined,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: 'Terms & Conditions',
+                title: strings.termsConditionsLabel,
                 onTap: () {},
               ),
               _tile(
@@ -220,7 +222,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.lock,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: 'Privacy Policy',
+                title: strings.privacyPolicyLabel,
                 onTap: () {},
               ),
 
@@ -228,7 +230,7 @@ class _SettingsPageState extends State<SettingsPage> {
               SizedBox(
                 width: double.infinity,
                 child: RoundedPrimaryButton(
-                  label: 'Logout',
+                  label: strings.logoutLabel,
                   fullWidth: true,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(

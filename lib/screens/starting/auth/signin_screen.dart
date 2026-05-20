@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'select_business.dart';
-import 'widgets/button.dart';
+import '../business_setup/select_business.dart';
+import '../language/app_language.dart';
+import '../../../widgets/button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final strings = appLanguageController.strings;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -25,34 +27,34 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Welcome back',
+                    strings.signInTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Log in to manage your businesses and ledger entries.',
+                    strings.signInSubtitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 28),
                   TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(Icons.email_outlined),
+                    decoration: InputDecoration(
+                      labelText: strings.emailLabel,
+                      prefixIcon: const Icon(Icons.email_outlined),
                     ),
                   ),
                   const SizedBox(height: 14),
                   TextField(
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock_outline),
+                    decoration: InputDecoration(
+                      labelText: strings.passwordLabel,
+                      prefixIcon: const Icon(Icons.lock_outline),
                     ),
                   ),
                   const SizedBox(height: 24),
                   RoundedPrimaryButton(
-                    label: 'Login',
+                    label: appLanguageController.tr('Login'),
                     fullWidth: true,
                     onPressed: () {
                       Navigator.of(context).pushReplacement(

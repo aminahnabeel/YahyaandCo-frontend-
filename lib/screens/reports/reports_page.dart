@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../ledger/ledger_accounts_page.dart';
+import '../starting/language/app_language.dart';
 import 'trial_balance_page.dart';
 import 'cash_book_page.dart';
 
@@ -8,25 +9,25 @@ class ReportsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tr = appLanguageController.tr;
     final reports = [
       {
-        'title': 'Ledger',
-        'description': 'View account-wise transactions and running balance',
+        'title': tr('Ledger'),
+        'description': tr('View account-wise transactions and running balance'),
         'icon': Icons.book,
         'iconColor': Colors.deepOrange,
         'page': const LedgerAccountsPage(),
       },
       {
-        'title': 'Trial Balance',
-        'description': 'Summary of all account debit and credit balances',
+        'title': tr('Trial Balance'),
+        'description': tr('Summary of all account debit and credit balances'),
         'icon': Icons.balance,
         'iconColor': Colors.orange,
         'page': const TrialBalancePage(),
       },
       {
-        'title': 'Cash Book',
-        'description':
-            'Track all cash inflows and outflows with running balance',
+        'title': tr('Cash Book'),
+        'description': tr('Track all cash inflows and outflows with running balance'),
         'icon': Icons.monetization_on,
         'iconColor': Colors.amber,
         'page': const CashBookPage(),

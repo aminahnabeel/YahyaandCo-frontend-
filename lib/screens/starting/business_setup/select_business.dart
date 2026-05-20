@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dashboard.dart';
-import 'widgets/button.dart';
+import '../../dashboard/dashboard.dart';
+import '../language/app_language.dart';
+import '../../../widgets/button.dart';
 
 class LogoScreen extends StatefulWidget {
   const LogoScreen({super.key});
@@ -29,6 +30,7 @@ class _LogoScreenState extends State<LogoScreen> {
   }
 
   void _openAddBusinessSheet() {
+    final strings = appLanguageController.strings;
     _nameController.clear();
     _typeController.clear();
 
@@ -48,31 +50,31 @@ class _LogoScreenState extends State<LogoScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Add Business',
+                strings.addBusinessTitle,
                 textAlign: TextAlign.center,
                 style: Theme.of(sheetContext).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Business name',
-                  prefixIcon: Icon(Icons.business_outlined),
+                decoration: InputDecoration(
+                  labelText: strings.businessNameLabel,
+                  prefixIcon: const Icon(Icons.business_outlined),
                 ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _typeController,
-                decoration: const InputDecoration(
-                  labelText: 'Business type',
-                  prefixIcon: Icon(Icons.category_outlined),
+                decoration: InputDecoration(
+                  labelText: strings.businessTypeLabel,
+                  prefixIcon: const Icon(Icons.category_outlined),
                 ),
               ),
               const SizedBox(height: 16),
               // Use shared RoundedPrimaryButton
               Builder(builder: (ctx) {
                 return RoundedPrimaryButton(
-                  label: 'Save Business',
+                  label: strings.saveBusiness,
                   fullWidth: true,
                   onPressed: () {
                     final name = _nameController.text.trim();
@@ -80,8 +82,8 @@ class _LogoScreenState extends State<LogoScreen> {
 
                     if (name.isEmpty || type.isEmpty) {
                       ScaffoldMessenger.of(ctx).showSnackBar(
-                        const SnackBar(
-                          content: Text('Enter both name and business type.'),
+                        SnackBar(
+                          content: Text(strings.enterBusinessFieldsError),
                         ),
                       );
                       return;
@@ -105,6 +107,7 @@ class _LogoScreenState extends State<LogoScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final strings = appLanguageController.strings;
 
     return Scaffold(
       body: SafeArea(
@@ -122,7 +125,7 @@ class _LogoScreenState extends State<LogoScreen> {
                         children: [
                           const SizedBox(height: 4),
                           Text(
-                            'Select Business',
+                            strings.selectBusinessTitle,
                             textAlign: TextAlign.center,
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.w700,
@@ -130,7 +133,7 @@ class _LogoScreenState extends State<LogoScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Choose a business to manage',
+                            strings.selectBusinessSubtitle,
                             textAlign: TextAlign.center,
                             style: theme.textTheme.bodyMedium,
                           ),

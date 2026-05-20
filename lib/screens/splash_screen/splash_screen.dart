@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'language_screen.dart';
-import 'widgets/button.dart';
+import '../starting/language/language_screen.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/button.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
@@ -9,6 +10,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final strings = appLanguageController.strings;
 
     final titleStyle = Theme.of(context).textTheme.headlineMedium?.copyWith(
       fontWeight: FontWeight.w800,
@@ -76,13 +78,13 @@ class IntroScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 10),
                       Text(
-                        'Say goodbye to messy records.',
+                        appLanguageController.tr('Say goodbye to messy records.'),
                         style: titleStyle,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'With our smart ledger app, easily track your daily expenses, monitor your income, and stay financially organized without any hassle.',
+                        appLanguageController.tr('With our smart ledger app, easily track your daily expenses, monitor your income, and stay financially organized without any hassle.'),
                         style: subtitleStyle,
                         textAlign: TextAlign.center,
                       ),
@@ -97,7 +99,7 @@ class IntroScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 50),
                       RoundedPrimaryButton(
-                        label: 'Continue',
+                        label: strings.continueButton,
                         icon: Icons.arrow_forward_rounded,
                         fullWidth: false,
                         height: 52,

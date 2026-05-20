@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/appbar.dart';
-import '../widgets/button.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/button.dart';
 
 class AddAccountPage extends StatefulWidget {
   const AddAccountPage({super.key});
@@ -44,6 +45,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = appLanguageController.strings;
     final currencies = ['INR (₹)', 'USD ()', 'EUR (€)', 'GBP (£)'];
     final accountTypes = [
       'Bank',
@@ -56,7 +58,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Add Account',
+        title: strings.addAccountTitle,
         onBackPressed: () => Navigator.of(context).pop(),
         showTitle: true,
       ),
@@ -76,7 +78,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        'Account Name',
+                        strings.accountNameLabel,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -85,7 +87,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       TextField(
                         controller: _nameController,
                         decoration: InputDecoration(
-                          hintText: 'e.g., Main Bank Account',
+                          hintText: strings.accountNameHint,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -98,7 +100,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       const SizedBox(height: 12),
 
                       Text(
-                        'Account Type',
+                        strings.accountTypeLabel,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -122,7 +124,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       const SizedBox(height: 12),
 
                       Text(
-                        'Account Code',
+                        strings.accountCodeLabel,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -131,7 +133,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       TextField(
                         controller: _codeController,
                         decoration: InputDecoration(
-                          hintText: 'e.g., ACC-001',
+                          hintText: strings.accountCodeHint,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -144,7 +146,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       const SizedBox(height: 12),
 
                       Text(
-                        'Currency',
+                        strings.currencyLabel,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -168,7 +170,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       const SizedBox(height: 12),
 
                       Text(
-                        'Opening Balance',
+                        strings.openingBalanceLabel,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -196,7 +198,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
               ),
               const SizedBox(height: 18),
               RoundedPrimaryButton(
-                label: 'Create Account',
+                label: strings.createAccount,
                 onPressed: _save,
                 fullWidth: true,
               ),
@@ -213,9 +215,9 @@ class _AddAccountPageState extends State<AddAccountPage> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  child: Text(
+                    strings.cancel,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
               ),

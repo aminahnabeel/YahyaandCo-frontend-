@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/appbar.dart';
-import '../theme.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/appbar.dart';
+import '../../theme/theme.dart';
 import 'ledger_report_page.dart';
 
 class LedgerAccountsPage extends StatefulWidget {
@@ -73,10 +74,11 @@ class _LedgerAccountsPageState extends State<LedgerAccountsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = appLanguageController.strings;
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Ledger Accounts',
+        title: strings.ledgerAccountsTitle,
         onBackPressed: () => Navigator.of(context).pop(),
         showTitle: true,
       ),
@@ -89,7 +91,7 @@ class _LedgerAccountsPageState extends State<LedgerAccountsPage> {
                 controller: _searchController,
                 onChanged: (_) => setState(() {}),
                 decoration: InputDecoration(
-                  hintText: 'Search account name or code...',
+                  hintText: strings.searchAccountHint,
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),

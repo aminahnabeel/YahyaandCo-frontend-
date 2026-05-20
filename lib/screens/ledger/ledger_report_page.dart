@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/appbar.dart';
-import '../theme.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/appbar.dart';
+import '../../theme/theme.dart';
 
 class LedgerReportPage extends StatelessWidget {
   const LedgerReportPage({
@@ -15,6 +16,7 @@ class LedgerReportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = appLanguageController.strings;
     final rows = [
       {
         'date': '2024-05-01',
@@ -41,7 +43,7 @@ class LedgerReportPage extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Ledger - $accountName',
+        title: '${strings.ledger} - $accountName',
         onBackPressed: () => Navigator.of(context).pop(),
         showTitle: true,
       ),
@@ -92,34 +94,34 @@ class LedgerReportPage extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  'Date',
+                                  strings.dateLabel,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  'Voucher',
+                                  strings.journalVoucherLabel,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Debit',
+                                  strings.debitLabel,
                                   textAlign: TextAlign.right,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Credit',
+                                  strings.creditLabel,
                                   textAlign: TextAlign.right,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Balance',
+                                  appLanguageController.tr('Balance'),
                                   textAlign: TextAlign.right,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/appbar.dart';
-import '../widgets/button.dart';
-import '../theme.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/button.dart';
 
 class JournalEntryPage extends StatefulWidget {
   const JournalEntryPage({super.key});
@@ -11,25 +11,119 @@ class JournalEntryPage extends StatefulWidget {
   State<JournalEntryPage> createState() => _JournalEntryPageState();
 }
 
-class _JournalEntryPageState extends State<JournalEntryPage> {
-  String _voucherType = 'Journal Voucher';
+class _JournalEntryLine {
+  _JournalEntryLine({String? account, String? debit, String? credit})
+    : accountController = TextEditingController(text: account ?? ''),
+      debitController = TextEditingController(text: debit ?? ''),
+      creditController = TextEditingController(text: credit ?? '');
 
-  final List<Map<String, String>> _lines = [
-    {'account': 'Bank Account', 'debit': '50,000', 'credit': ''},
-    {'account': 'Sales Revenue', 'debit': '', 'credit': '50,000'},
+  final TextEditingController accountController;
+  final TextEditingController debitController;
+  final TextEditingController creditController;
+
+  void dispose() {
+    accountController.dispose();
+    debitController.dispose();
+    creditController.dispose();
+  }
+}
+
+class _JournalEntryPageState extends State<JournalEntryPage> {
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _voucherNumberController = TextEditingController(
+    text: 'JV/2024-05/001',
+  );
+
+  DateTime _selectedDate = DateTime.now();
+  String _voucherType = 'Journal Voucher';
+  String? _validationError;
+
+  final List<_JournalEntryLine> _lines = [
+    _JournalEntryLine(account: 'Bank Account', debit: '50000', credit: ''),
+    _JournalEntryLine(account: 'Sales Revenue', debit: '', credit: '50000'),
   ];
 
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    _voucherNumberController.dispose();
+    for (final line in _lines) {
+      line.dispose();
+    }
+    super.dispose();
+  }
+
+  void _addLine() {
+    setState(() {
+      _lines.add(_JournalEntryLine());
+      _validationError = null;
+    });
+  }
+
+  void _removeLine(int index) {
+    if (_lines.length <= 1) return;
+    setState(() {
+      _lines[index].dispose();
+      _lines.removeAt(index);
+      _validationError = null;
+    });
+  }
+
+  bool _validateDebitCredit() {
+    double totalDebit = 0;
+    double totalCredit = 0;
+
+    for (final line in _lines) {
+      final debit =
+          double.tryParse(line.debitController.text.replaceAll(',', '').trim()) ??
+          0;
+      final credit =
+          double.tryParse(
+            line.creditController.text.replaceAll(',', '').trim(),
+          ) ??
+          0;
+      totalDebit += debit;
+      totalCredit += credit;
+    }
+
+    return (totalDebit - totalCredit).abs() <= 0.01;
+  }
+
   void _save() {
-    Navigator.of(context).pop({'voucherType': _voucherType, 'lines': _lines});
+    final strings = appLanguageController.strings;
+    if (!_validateDebitCredit()) {
+      setState(() {
+        _validationError = strings.debitCreditMismatchError;
+      });
+      return;
+    }
+
+    Navigator.of(context).pop({
+      'voucherType': _voucherType,
+      'date': _selectedDate,
+      'description': _descriptionController.text.trim(),
+      'voucherNumber': _voucherNumberController.text.trim(),
+      'lines':
+          _lines
+              .map(
+                (line) => {
+                  'account': line.accountController.text.trim(),
+                  'debit': line.debitController.text.trim(),
+                  'credit': line.creditController.text.trim(),
+                },
+              )
+              .toList(),
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = appLanguageController.strings;
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Journal Entry',
+        title: strings.journalEntryPageTitle,
         onBackPressed: () => Navigator.of(context).pop(),
         showTitle: true,
       ),
@@ -49,10 +143,9 @@ class _JournalEntryPageState extends State<JournalEntryPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        'Voucher Type',
-                        style: theme.textTheme.bodyLarge?.copyWith(
+                        strings.voucherTypeLabel,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -63,213 +156,176 @@ class _JournalEntryPageState extends State<JournalEntryPage> {
                               onPressed: () => setState(
                                 () => _voucherType = 'Journal Voucher',
                               ),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor:
-                                    _voucherType == 'Journal Voucher'
-                                    ? theme.colorScheme.primary.withOpacity(
-                                        0.08,
-                                      )
-                                    : null,
-                                side: BorderSide(
-                                  color: theme.colorScheme.outline,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                              ),
-                              child: Text(
-                                'Journal Voucher',
-                                style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: theme.colorScheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              child: Text(appLanguageController.tr('Journal Voucher')),
                             ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: OutlinedButton(
                               onPressed: () => setState(
-                                () => _voucherType = 'Contra Voucher',
+                                () => _voucherType = 'Cash Payment',
                               ),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor:
-                                    _voucherType == 'Contra Voucher'
-                                    ? theme.colorScheme.primary.withOpacity(
-                                        0.08,
-                                      )
-                                    : null,
-                                side: BorderSide(
-                                  color: theme.colorScheme.outline,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                              ),
-                              child: Text(
-                                'Contra Voucher',
-                                style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: _voucherType == 'Contra Voucher'
-                                      ? theme.colorScheme.primary
-                                      : theme.colorScheme.onSurface,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              child: Text(appLanguageController.tr('Cash Payment')),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Voucher Number',
-                        style: theme.textTheme.bodyLarge?.copyWith(
+                        strings.voucherNumberLabel,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
                         ),
                       ),
                       const SizedBox(height: 8),
                       TextField(
-                        controller: TextEditingController(
-                          text: 'JV/2024-05/001',
-                        ),
+                        controller: _voucherNumberController,
                         readOnly: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: theme.colorScheme.surfaceVariant
-                              .withOpacity(0.4),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 14,
-                          ),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
                         ),
                       ),
                       const SizedBox(height: 12),
-
                       Text(
-                        'Journal Entries',
-                        style: theme.textTheme.bodyLarge?.copyWith(
+                        strings.journalDateLabel,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: theme.cardColor,
+                      OutlinedButton.icon(
+                        onPressed: () async {
+                          final picked = await showDatePicker(
+                            context: context,
+                            initialDate: _selectedDate,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                          );
+                          if (picked != null) {
+                            setState(() => _selectedDate = picked);
+                          }
+                        },
+                        icon: const Icon(Icons.calendar_today),
+                        label: Text(
+                          '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}',
                         ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Account',
-                                      style: theme.textTheme.bodySmall,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 120,
-                                    child: Text(
-                                      'Debit',
-                                      style: theme.textTheme.bodySmall,
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 120,
-                                    child: Text(
-                                      'Credit',
-                                      style: theme.textTheme.bodySmall,
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Divider(height: 1),
-                            ..._lines.map((l) {
-                              return ListTile(
-                                dense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                title: Text(l['account'] ?? ''),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        l['debit'] ?? '',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          color: AppTheme.success,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        l['credit'] ?? '',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          color: theme.colorScheme.error,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                            const SizedBox.shrink(),
-                          ],
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        strings.journalDescriptionLabel,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
                         ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: _descriptionController,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          hintText: appLanguageController.tr('Enter description'),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        strings.journalEntriesLabel,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      if (_validationError != null)
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.errorContainer,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            _validationError!,
+                            style: TextStyle(color: theme.colorScheme.error),
+                          ),
+                        ),
+                      ..._lines.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final line = entry.value;
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: TextField(
+                                  controller: line.accountController,
+                                  decoration: InputDecoration(
+                                    labelText: strings.journalAccountLabel,
+                                    border: OutlineInputBorder(),
+                                    isDense: true,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 2,
+                                child: TextField(
+                                  controller: line.debitController,
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.right,
+                                  decoration: InputDecoration(
+                                    labelText: strings.journalDebitLabel,
+                                    border: OutlineInputBorder(),
+                                    isDense: true,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 2,
+                                child: TextField(
+                                  controller: line.creditController,
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.right,
+                                  decoration: InputDecoration(
+                                    labelText: strings.journalCreditLabel,
+                                    border: OutlineInputBorder(),
+                                    isDense: true,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              IconButton(
+                                onPressed: _lines.length > 1
+                                    ? () => _removeLine(index)
+                                    : null,
+                                icon: const Icon(Icons.delete_outline),
+                                tooltip: strings.removeLineButton,
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                      OutlinedButton.icon(
+                        onPressed: _addLine,
+                        icon: const Icon(Icons.add),
+                        label: Text(strings.addLineButton),
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 16),
               RoundedPrimaryButton(
-                label: 'Save Entry',
+                label: strings.saveEntryButton,
                 onPressed: _save,
                 fullWidth: true,
               ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.surfaceVariant,
-                    foregroundColor: theme.colorScheme.onSurface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
+              const SizedBox(height: 8),
+              OutlinedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(strings.cancel),
               ),
             ],
           ),

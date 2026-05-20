@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'pages/home_dashboard.dart';
-import 'pages/transactions_page.dart';
-import 'pages/accounts_page.dart';
-import 'pages/reports_page.dart';
-import 'pages/settings_page.dart';
-import 'widgets/appbar.dart';
+import 'home_dashboard.dart';
+import '../transactions/transactions_page.dart';
+import '../accounts/accounts_page.dart';
+import '../search/search_page.dart';
+import '../reports/reports_page.dart';
+import '../settings/settings_page.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/appbar.dart';
 
 class DashboardMainScreen extends StatefulWidget {
   final String businessName;
@@ -16,13 +18,6 @@ class DashboardMainScreen extends StatefulWidget {
 
 class _DashboardMainScreenState extends State<DashboardMainScreen> {
   int _currentIndex = 0;
-  static const List<String> _tabTitles = [
-    'Home',
-    'Transactions',
-    'Accounts',
-    'Reports',
-    'Settings',
-  ];
   final List<GlobalKey<NavigatorState>> _navigatorKeys = List.generate(
     5,
     (_) => GlobalKey<NavigatorState>(),
@@ -62,6 +57,15 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = appLanguageController.strings;
+    final tabTitles = [
+      strings.homeTabTitle,
+      strings.transactionsTabTitle,
+      strings.accountsTabTitle,
+      appLanguageController.tr('Reports'),
+      strings.settingsTabTitle,
+    ];
+
     final pages = [
       HomeDashboard(businessName: widget.businessName),
       const TransactionsPage(),
@@ -77,7 +81,25 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: CustomAppBar(title: _tabTitles[_currentIndex], showTitle: true),
+        appBar: CustomAppBar(
+          title: tabTitles[_currentIndex],
+          showTitle: true,
+          actions: _currentIndex == 0
+              ? [
+                  IconButton(
+                    tooltip: appLanguageController.tr('Search'),
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                          builder: (_) => const SearchPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ]
+              : null,
+        ),
         body: Stack(
           children: List.generate(
             pages.length,
@@ -92,23 +114,26 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
           unselectedItemColor: Theme.of(
             context,
           ).colorScheme.onSurface.withAlpha((0.6 * 255).round()),
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.swap_horiz),
-              label: 'Transactions',
+              icon: const Icon(Icons.home),
+              label: strings.homeTabTitle,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance),
-              label: 'Accounts',
+              icon: const Icon(Icons.swap_horiz),
+              label: strings.transactionsTabTitle,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.assessment),
-              label: 'Reports',
+              icon: const Icon(Icons.account_balance),
+              label: strings.accountsTabTitle,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
+              icon: const Icon(Icons.assessment),
+              label: appLanguageController.tr('Reports'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.settings),
+              label: strings.settingsTabTitle,
             ),
           ],
         ),

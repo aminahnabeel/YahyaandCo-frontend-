@@ -1,47 +1,61 @@
 import 'package:flutter/material.dart';
-import '../theme.dart';
-import 'add_transaction.dart';
-import 'add_account.dart';
-import 'ledger_accounts_page.dart';
-import 'journal_list_page.dart';
+import '../../theme/theme.dart';
+import '../starting/language/app_language.dart';
+import '../transactions/add_transaction.dart';
+import '../accounts/add_account.dart';
+import '../calculator/calculator_page.dart';
+import '../ledger/ledger_accounts_page.dart';
+import '../journal/journal_list_page.dart';
 
 class HomeDashboard extends StatelessWidget {
   final String businessName;
   const HomeDashboard({super.key, required this.businessName});
 
-  Widget _actionButton(BuildContext context, String label, IconData icon) {
+  Widget _actionButton(
+    BuildContext context,
+    String action,
+    String label,
+    IconData icon,
+  ) {
     final theme = Theme.of(context);
 
     return SizedBox(
       height: 46,
       child: OutlinedButton.icon(
         onPressed: () async {
-          if (label == 'Add Transaction') {
+          if (action == 'add-transaction') {
             await Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(builder: (_) => const AddTransactionPage()),
             );
             return;
           }
 
-          if (label == 'Add Account') {
+          if (action == 'add-account') {
             await Navigator.of(
               context,
               rootNavigator: true,
             ).push(MaterialPageRoute(builder: (_) => const AddAccountPage()));
             return;
           }
-          if (label == 'Ledger' || label == 'Reports') {
+          if (action == 'ledger') {
             // support both labels while migrating to Ledger
             await Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(builder: (_) => const LedgerAccountsPage()),
             );
             return;
           }
-          if (label == 'Journal Entry') {
+          if (action == 'journal-entry') {
             await Navigator.of(
               context,
               rootNavigator: true,
             ).push(MaterialPageRoute(builder: (_) => const JournalListPage()));
+            return;
+          }
+
+          if (action == 'calculator') {
+            await Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(builder: (_) => const CalculatorPage()),
+            );
             return;
           }
         },
@@ -89,6 +103,7 @@ class HomeDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = appLanguageController.strings;
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
@@ -101,7 +116,7 @@ class HomeDashboard extends StatelessWidget {
                 Expanded(
                   child: _statCard(
                     context,
-                    'Total Balance',
+                    strings.totalBalance,
                     '₹524,300',
                     theme.colorScheme.primary,
                   ),
@@ -110,7 +125,7 @@ class HomeDashboard extends StatelessWidget {
                 Expanded(
                   child: _statCard(
                     context,
-                    'Cash in Hand',
+                    strings.cashInHand,
                     '₹45,200',
                     AppTheme.success,
                   ),
@@ -123,7 +138,7 @@ class HomeDashboard extends StatelessWidget {
                 Expanded(
                   child: _statCard(
                     context,
-                    'Receivables',
+                    strings.receivables,
                     '₹125,400',
                     AppTheme.warning,
                   ),
@@ -132,7 +147,7 @@ class HomeDashboard extends StatelessWidget {
                 Expanded(
                   child: _statCard(
                     context,
-                    'Payables',
+                    strings.payables,
                     '₹89,300',
                     Theme.of(context).colorScheme.error,
                   ),
@@ -143,13 +158,19 @@ class HomeDashboard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _actionButton(context, 'Add Transaction', Icons.add),
+                  child: _actionButton(
+                    context,
+                    'add-transaction',
+                    strings.addTransaction,
+                    Icons.add,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _actionButton(
                     context,
-                    'Add Account',
+                    'add-account',
+                    strings.addAccount,
                     Icons.account_balance_wallet,
                   ),
                 ),
@@ -161,7 +182,8 @@ class HomeDashboard extends StatelessWidget {
                 Expanded(
                   child: _actionButton(
                     context,
-                    'Journal Entry',
+                    'journal-entry',
+                    strings.journalEntry,
                     Icons.receipt_long,
                   ),
                 ),
@@ -169,21 +191,35 @@ class HomeDashboard extends StatelessWidget {
                 Expanded(
                   child: _actionButton(
                     context,
-                    'Ledger',
+                    'ledger',
+                    strings.ledger,
                     Icons.account_balance_wallet,
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: _actionButton(
+                    context,
+                    'calculator',
+                    appLanguageController.tr('Calculator'),
+                    Icons.calculate,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 18),
-            Text('Recent Transactions', style: theme.textTheme.titleMedium),
+            Text(strings.recentTransactions, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             Card(
               child: Column(
                 children: [
                   ListTile(
-                    title: const Text('Office Rent'),
-                    subtitle: const Text('Today'),
+                    title: Text(strings.officeRent),
+                    subtitle: Text(strings.today),
                     trailing: Text(
                       '-₹15,000',
                       style: TextStyle(
@@ -193,8 +229,8 @@ class HomeDashboard extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    title: const Text('Client Payment'),
-                    subtitle: const Text('Today'),
+                    title: Text(strings.clientPayment),
+                    subtitle: Text(strings.today),
                     trailing: Text(
                       '+₹42,500',
                       style: TextStyle(color: AppTheme.success),
@@ -202,8 +238,8 @@ class HomeDashboard extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    title: const Text('Utilities'),
-                    subtitle: const Text('Yesterday'),
+                    title: Text(strings.utilities),
+                    subtitle: Text(strings.yesterday),
                     trailing: Text(
                       '-₹3,200',
                       style: TextStyle(
@@ -213,8 +249,8 @@ class HomeDashboard extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    title: const Text('Sales Revenue'),
-                    subtitle: const Text('Yesterday'),
+                    title: Text(strings.salesRevenue),
+                    subtitle: Text(strings.yesterday),
                     trailing: Text(
                       '+₹28,900',
                       style: TextStyle(color: AppTheme.success),

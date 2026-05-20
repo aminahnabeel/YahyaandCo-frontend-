@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'app_language.dart';
-import 'email_screen.dart';
-import 'splash_screen.dart';
-import 'widgets/appbar.dart';
-import 'widgets/button.dart';
+import '../auth/signup_screen.dart';
+import '../../splash_screen/splash_screen.dart';
+import '../../../widgets/appbar.dart';
+import '../../../widgets/button.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -178,7 +178,7 @@ class _LanguageOptionCard extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    option.accentColor.withValues(alpha: 0.20),
+                    option.accentColor.withOpacity(0.20),
                     Colors.white,
                   ],
                 )
@@ -193,7 +193,7 @@ class _LanguageOptionCard extends StatelessWidget {
 
           border: Border.all(
             color: isSelected
-                ? option.accentColor.withValues(alpha: 0.55)
+                ? option.accentColor.withOpacity(0.55)
                 : const Color(0xFFE5E7EB),
             width: 1.2,
           ),
@@ -201,8 +201,8 @@ class _LanguageOptionCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? option.accentColor.withValues(alpha: 0.18)
-                  : Colors.black.withValues(alpha: 0.05),
+                  ? option.accentColor.withOpacity(0.18)
+                  : Colors.black.withOpacity(0.05),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -219,8 +219,8 @@ class _LanguageOptionCard extends StatelessWidget {
                 width: 78,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(22),
-                  color: isSelected
-                      ? option.accentColor.withValues(alpha: 0.14)
+                    color: isSelected
+                      ? option.accentColor.withOpacity(0.14)
                       : const Color(0xFFF1F5F9),
                 ),
                 child: Center(
@@ -250,11 +250,13 @@ class _LanguageOptionCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: isSelected
-                      ? option.accentColor.withValues(alpha: 0.12)
+                      ? option.accentColor.withOpacity(0.12)
                       : const Color(0xFFF3F4F6),
                 ),
                 child: Text(
-                  isSelected ? 'Selected' : 'Tap to choose',
+                  isSelected
+                      ? appLanguageController.tr('Selected')
+                      : appLanguageController.tr('Tap to choose'),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -290,7 +292,7 @@ class _LanguageBackdrop extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    const Color(0xFF2563EB).withValues(alpha: 0.10),
+                    const Color(0xFF2563EB).withOpacity(0.10),
                     Colors.transparent,
                   ],
                 ),
@@ -307,7 +309,7 @@ class _LanguageBackdrop extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    const Color(0xFF0F766E).withValues(alpha: 0.08),
+                    const Color(0xFF0F766E).withOpacity(0.08),
                     Colors.transparent,
                   ],
                 ),

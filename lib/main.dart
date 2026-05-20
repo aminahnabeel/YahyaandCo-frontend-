@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'app_language.dart';
-import 'logo_screen.dart';
-import 'theme.dart';
-import 'theme_controller.dart';
+import 'screens/starting/language/app_language.dart';
+import 'screens/splash_screen/logo_screen.dart';
+import 'theme/theme.dart';
+import 'theme/theme_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +28,12 @@ class MyApp extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               themeMode: themeMode,
               locale: appLanguageController.locale,
+              builder: (context, child) {
+                return Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
               supportedLocales: const [Locale('en'), Locale('ur', 'PK')],
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,

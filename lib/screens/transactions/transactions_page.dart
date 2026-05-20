@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../starting/language/app_language.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -56,15 +57,42 @@ class _TransactionsPageState extends State<TransactionsPage> {
     }).toList();
   }
 
-  Widget _transactionTile(BuildContext context, Map<String, String> t) {
+  String _localizeTxText(String text) {
+    final s = appLanguageController.strings;
+    switch (text) {
+      case 'Office Rent':
+        return s.officeRent;
+      case 'Client Payment':
+        return s.clientPayment;
+      case 'Utilities':
+        return s.utilities;
+      case 'Sales Revenue':
+        return s.salesRevenue;
+      case 'Today':
+        return s.today;
+      case 'Yesterday':
+        return s.yesterday;
+      default:
+        return appLanguageController.tr(text);
+    }
+  }
+
+  Widget _transactionTile(
+    BuildContext context,
+    Map<String, String> t,
+    AppStrings strings,
+  ) {
     final credit = t['type'] == 'credit';
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        title: Text(t['title']!, style: Theme.of(context).textTheme.bodyLarge),
+        title: Text(
+          _localizeTxText(t['title']!),
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
         subtitle: Text(
-          t['date']!,
+          _localizeTxText(t['date']!),
           style: Theme.of(context).textTheme.bodySmall,
         ),
         trailing: Text(
@@ -81,6 +109,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = appLanguageController.strings;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -89,7 +118,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
           children: [
             const SizedBox(height: 6),
             Text(
-              'Transactions',
+              strings.transactionsTitle,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 8),
@@ -100,7 +129,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                     controller: _searchController,
                     onChanged: (_) => setState(() {}),
                     decoration: InputDecoration(
-                      hintText: 'Search transactions',
+                      hintText: strings.searchTransactions,
                       prefixIcon: const Icon(Icons.search),
                       filled: true,
                       fillColor: Theme.of(context).cardColor,
@@ -115,10 +144,10 @@ class _TransactionsPageState extends State<TransactionsPage> {
                 PopupMenuButton<int>(
                   icon: const Icon(Icons.filter_list),
                   onSelected: (v) => setState(() => _filter = v),
-                  itemBuilder: (_) => const [
-                    PopupMenuItem(value: 0, child: Text('All')),
-                    PopupMenuItem(value: 1, child: Text('Credit')),
-                    PopupMenuItem(value: 2, child: Text('Debit')),
+                  itemBuilder: (_) => [
+                    PopupMenuItem(value: 0, child: Text(strings.allFilter)),
+                    PopupMenuItem(value: 1, child: Text(strings.creditFilter)),
+                    PopupMenuItem(value: 2, child: Text(strings.debitFilter)),
                   ],
                 ),
               ],
@@ -129,7 +158,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                 itemCount: _filteredTransactions.length,
                 itemBuilder: (ctx, i) {
                   final t = _filteredTransactions[i];
-                  return _transactionTile(ctx, t);
+                  return _transactionTile(ctx, t, strings);
                 },
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../starting/language/app_language.dart';
 import '../../theme/theme.dart';
 
 class CashBookPage extends StatelessWidget {
@@ -55,6 +56,7 @@ class CashBookPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
+    final tr = appLanguageController.tr;
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +70,7 @@ class CashBookPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Cash Book',
+              tr('Cash Book'),
               style: theme.textTheme.titleLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
@@ -93,7 +95,7 @@ class CashBookPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: _SummaryCard(
-                    label: 'Total Inflow',
+                    label: tr('Total Inflow'),
                     value: '₹$_totalInflowShort',
                     valueColor: AppTheme.success,
                     filled: false,
@@ -102,7 +104,7 @@ class CashBookPage extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _SummaryCard(
-                    label: 'Total Outflow',
+                    label: tr('Total Outflow'),
                     value: '₹$_totalOutflowShort',
                     valueColor: theme.colorScheme.error,
                     filled: false,
@@ -111,7 +113,7 @@ class CashBookPage extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _SummaryCard(
-                    label: 'Closing Balance',
+                    label: tr('Closing Balance'),
                     value: '₹$_closingBalanceShort',
                     valueColor: Colors.white,
                     filled: true,
@@ -129,7 +131,7 @@ class CashBookPage extends StatelessWidget {
                 SizedBox(
                   width: 72,
                   child: Text(
-                    'Date',
+                    tr('Date'),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -139,7 +141,7 @@ class CashBookPage extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    'Description',
+                    tr('Description'),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -149,7 +151,7 @@ class CashBookPage extends StatelessWidget {
                 SizedBox(
                   width: 56,
                   child: Text(
-                    'Inflow',
+                    tr('Inflow'),
                     textAlign: TextAlign.right,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
@@ -162,7 +164,7 @@ class CashBookPage extends StatelessWidget {
                 SizedBox(
                   width: 56,
                   child: Text(
-                    'Outflow',
+                    tr('Outflow'),
                     textAlign: TextAlign.right,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
@@ -175,7 +177,7 @@ class CashBookPage extends StatelessWidget {
                 SizedBox(
                   width: 64,
                   child: Text(
-                    'Balance',
+                    tr('Balance'),
                     textAlign: TextAlign.right,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,

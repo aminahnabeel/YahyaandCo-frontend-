@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'app_language.dart';
-import 'widgets/appbar.dart';
-import 'login_screen.dart';
-import 'widgets/button.dart';
-import 'widgets/custom_text_field.dart';
+import '../language/app_language.dart';
+import '../../../widgets/appbar.dart';
+import 'signin_screen.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/custom_text_field.dart';
 
 class EmailScreen extends StatefulWidget {
   const EmailScreen({super.key});
@@ -102,7 +102,7 @@ class _EmailScreenState extends State<EmailScreen> {
                       const SizedBox(height: 28),
 
                       // ================= NAME =================
-                      _label("Name"),
+                      _label(strings.nameLabel),
                       const SizedBox(height: 8),
                       CustomTextField(
                         controller: _nameController,
@@ -112,7 +112,7 @@ class _EmailScreenState extends State<EmailScreen> {
                       const SizedBox(height: 20),
 
                       // ================= EMAIL =================
-                      _label("Email"),
+                      _label(strings.emailLabel),
                       const SizedBox(height: 8),
                       CustomTextField(
                         controller: _emailController,
@@ -123,7 +123,7 @@ class _EmailScreenState extends State<EmailScreen> {
                       const SizedBox(height: 20),
 
                       // ================= PASSWORD =================
-                      _label("Password"),
+                      _label(strings.passwordLabel),
                       const SizedBox(height: 8),
                       CustomTextField(
                         controller: _passwordController,
@@ -136,7 +136,7 @@ class _EmailScreenState extends State<EmailScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: RoundedPrimaryButton(
-                          label: "Sign Up",
+                          label: strings.signUp,
                           icon: null,
                           fullWidth: false,
                           height: 52,

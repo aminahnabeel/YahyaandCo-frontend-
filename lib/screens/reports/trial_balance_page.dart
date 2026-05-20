@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../starting/language/app_language.dart';
 import '../../theme/theme.dart';
 
 class TrialBalancePage extends StatelessWidget {
@@ -61,6 +62,8 @@ class TrialBalancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
+    final strings = appLanguageController.strings;
+    final tr = appLanguageController.tr;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +77,7 @@ class TrialBalancePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Trial Balance',
+              strings.trialBalanceTitle,
               style: theme.textTheme.titleLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
@@ -82,7 +85,7 @@ class TrialBalancePage extends StatelessWidget {
               ),
             ),
             Text(
-              'As on $_asOnDate',
+              '${tr('As on')} $_asOnDate',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: Colors.white.withValues(alpha: 0.85),
               ),
@@ -107,7 +110,7 @@ class TrialBalancePage extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'Trial Balance Not Balanced',
+                  tr('Trial Balance Not Balanced'),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.error,
                     fontWeight: FontWeight.w600,
@@ -124,7 +127,7 @@ class TrialBalancePage extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Text(
-                    'Account',
+                    strings.journalAccountLabel,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -133,7 +136,7 @@ class TrialBalancePage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Debit',
+                    strings.debitLabel,
                     textAlign: TextAlign.right,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
@@ -144,7 +147,7 @@ class TrialBalancePage extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Credit',
+                    strings.creditLabel,
                     textAlign: TextAlign.right,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white,
@@ -181,7 +184,7 @@ class TrialBalancePage extends StatelessWidget {
               children: [
                 Expanded(
                   child: _SummaryCard(
-                    label: 'Total Debit',
+                    label: tr('Total Debit'),
                     value: '₹$_totalDebitShort',
                     valueColor: theme.colorScheme.error,
                   ),
@@ -189,7 +192,7 @@ class TrialBalancePage extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _SummaryCard(
-                    label: 'Total Credit',
+                    label: tr('Total Credit'),
                     value: '₹$_totalCreditShort',
                     valueColor: AppTheme.success,
                   ),

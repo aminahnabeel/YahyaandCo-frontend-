@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/button.dart';
-import '../widgets/appbar.dart';
+import '../starting/language/app_language.dart';
+import '../../widgets/button.dart';
+import '../../widgets/appbar.dart';
 
 class AddTransactionPage extends StatefulWidget {
   const AddTransactionPage({super.key});
@@ -52,12 +53,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = appLanguageController.strings;
     final accounts = ['Main Bank Account', 'Cash in Hand', 'Savings Account'];
     final paymentMethods = ['Cash', 'Bank Transfer', 'Check', 'Digital Wallet'];
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Add Transaction',
+        title: strings.addTransactionTitle,
         onBackPressed: () => Navigator.of(context).pop(),
         showTitle: true,
       ),
@@ -77,8 +79,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Account
-                      const Text(
-                        'Account',
+                      Text(
+                        strings.accountNameLabel,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -99,8 +101,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       const SizedBox(height: 12),
 
                       // Amount
-                      const Text(
-                        'Amount',
+                      Text(
+                        strings.amountLabel,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -123,8 +125,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       const SizedBox(height: 12),
 
                       // Type toggle
-                      const Text(
-                        'Type',
+                      Text(
+                        strings.typeLabel,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -157,7 +159,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    'Debit',
+                                    strings.debitLabel,
                                     style: theme.textTheme.bodyLarge?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -194,7 +196,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    'Credit',
+                                    strings.creditLabel,
                                     style: theme.textTheme.bodyLarge?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -208,8 +210,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       const SizedBox(height: 12),
 
                       // Payment method
-                      const Text(
-                        'Payment Method',
+                      Text(
+                        strings.paymentMethodLabel,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -230,8 +232,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       const SizedBox(height: 12),
 
                       // Date
-                      const Text(
-                        'Date',
+                      Text(
+                        strings.dateLabel,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -265,8 +267,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       const SizedBox(height: 12),
 
                       // Notes
-                      const Text(
-                        'Notes',
+                      Text(
+                        strings.notesLabel,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -274,7 +276,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         controller: _notesController,
                         maxLines: 4,
                         decoration: InputDecoration(
-                          hintText: 'Add notes...',
+                          hintText: appLanguageController.tr('Add notes...'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -287,7 +289,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
               const SizedBox(height: 18),
               RoundedPrimaryButton(
-                label: 'Save Transaction',
+                label: strings.saveTransaction,
                 icon: null,
                 fullWidth: true,
                 height: 52,
