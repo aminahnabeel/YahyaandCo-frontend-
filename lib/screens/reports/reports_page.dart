@@ -1,260 +1,149 @@
 import 'package:flutter/material.dart';
+import 'ledger_report_page.dart';
 
 class ReportsPage extends StatelessWidget {
   const ReportsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final trialRows = [
-      {'account': 'Bank Account', 'debit': '₹245,300', 'credit': ''},
-      {'account': 'Cash', 'debit': '₹45,200', 'credit': ''},
-      {'account': 'Sales', 'debit': '', 'credit': '₹71,400'},
-      {'account': 'Expenses', 'debit': '₹18,200', 'credit': ''},
-    ];
-
-    // compute totals (simple parsing removing non-digits)
-    int parseAmount(String s) {
-      if (s.isEmpty) return 0;
-      final cleaned = s.replaceAll(RegExp(r'[^0-9]'), '');
-      return int.tryParse(cleaned) ?? 0;
-    }
-
-    final totalDebit = trialRows.fold<int>(
-      0,
-      (sum, r) => sum + parseAmount(r['debit']!),
-    );
-    final totalCredit = trialRows.fold<int>(
-      0,
-      (sum, r) => sum + parseAmount(r['credit']!),
-    );
-
-    final ledger = [
+    final reports = [
       {
-        'label': 'Opening Balance',
-        'amount': '₹100,000',
-        'color': Theme.of(context).colorScheme.onSurface,
+        'title': 'Ledger',
+        'description': 'View account-wise transactions and running balance',
+        'icon': Icons.book,
+        'iconColor': Colors.deepOrange,
+        'page': const LedgerReportPage(
+          accountName: 'All Accounts',
+          accountCode: 'ALL',
+        ),
       },
       {
-        'label': 'Total Credits',
-        'amount': '₹71,400',
-        'color': Theme.of(context).colorScheme.primary,
+        'title': 'Trial Balance',
+        'description': 'Summary of all account debit and credit balances',
+        'icon': Icons.balance,
+        'iconColor': Colors.orange,
+        'page': null, // TODO: Create TrialBalancePage
       },
       {
-        'label': 'Total Debits',
-        'amount': '₹18,200',
-        'color': Theme.of(context).colorScheme.error,
-      },
-      {
-        'label': 'Closing Balance',
-        'amount': '₹153,200',
-        'color': Theme.of(context).colorScheme.primary,
+        'title': 'Cash Book',
+        'description':
+            'Track all cash inflows and outflows with running balance',
+        'icon': Icons.monetization_on,
+        'iconColor': Colors.amber,
+        'page': null, // TODO: Create CashBookPage
       },
     ];
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: ListView(
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Trial Balance',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Table(
-                      columnWidths: const {
-                        0: FlexColumnWidth(3),
-                        1: FlexColumnWidth(1.3),
-                        2: FlexColumnWidth(1.3),
-                      },
-                      children: [
-                        TableRow(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Theme.of(context).dividerColor,
-                              ),
-                            ),
-                          ),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Text(
-                                'Account',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Text(
-                                'Debit',
-                                textAlign: TextAlign.right,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Text(
-                                'Credit',
-                                textAlign: TextAlign.right,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                          ],
-                        ),
-                        ...trialRows.map(
-                          (r) => TableRow(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Theme.of(
-                                    context,
-                                  ).dividerColor.withValues(alpha: 0.5),
-                                ),
-                              ),
-                            ),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                child: Text(
-                                  r['account']!,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                child: Text(
-                                  r['debit']!.isEmpty ? '—' : r['debit']!,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    color: r['debit']!.isEmpty
-                                        ? Theme.of(context).disabledColor
-                                        : Theme.of(context).colorScheme.primary,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                child: Text(
-                                  r['credit']!.isEmpty ? '—' : r['credit']!,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    color: r['credit']!.isEmpty
-                                        ? Theme.of(context).disabledColor
-                                        : Theme.of(context).colorScheme.primary,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        TableRow(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surfaceVariant,
-                          ),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(
-                                'Total',
-                                style: Theme.of(context).textTheme.bodyLarge
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(
-                                '₹${totalDebit.toString()}',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(
-                                '₹${totalCredit.toString()}',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+    return Column(
+      children: [
+        // Header Section
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Reports',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 4),
+              Text(
+                'Select a report type to view financial data',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.9),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Ledger Summary',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+            ],
+          ),
+        ),
+        // Reports List
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: reports.length,
+            itemBuilder: (context, index) {
+              final report = reports[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: GestureDetector(
+                  onTap: report['page'] != null
+                      ? () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => report['page'] as Widget,
+                            ),
+                          );
+                        }
+                      : null,
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(height: 12),
-                    ...ledger.map(
-                      (row) => Column(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                row['label'] as String,
-                                style: Theme.of(context).textTheme.bodyLarge,
+                          // Colored Icon
+                          Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: (report['iconColor'] as Color).withValues(
+                                alpha: 0.2,
                               ),
-                              Text(
-                                row['amount'] as String,
-                                style: TextStyle(
-                                  color: (row['color'] as Color),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              report['icon'] as IconData,
+                              color: report['iconColor'] as Color,
+                              size: 32,
+                            ),
                           ),
-                          const Divider(height: 18, thickness: 1),
+                          const SizedBox(width: 16),
+                          // Text Content
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  report['title'] as String,
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  report['description'] as String,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(color: Colors.grey[600]),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../theme_controller.dart';
-import '../login_screen.dart';
-import '../widgets/button.dart';
+
+import '../../theme/theme_controller.dart';
+import '../../widgets/button.dart';
+import '../starting/auth/signin_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -231,7 +232,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   fullWidth: true,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                      MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
+                      MaterialPageRoute<void>(
+                        builder: (_) => const LoginScreen(),
+                      ),
                       (route) => false,
                     );
                   },

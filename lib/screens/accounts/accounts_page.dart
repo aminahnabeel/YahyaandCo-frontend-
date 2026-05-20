@@ -88,9 +88,10 @@ class AccountsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await Navigator.of(context, rootNavigator: true).push(
-            MaterialPageRoute(builder: (_) => const AddAccountPage()),
-          );
+          await Navigator.of(
+            context,
+            rootNavigator: true,
+          ).push(MaterialPageRoute(builder: (_) => const AddAccountPage()));
         },
         child: const Icon(Icons.add),
       ),

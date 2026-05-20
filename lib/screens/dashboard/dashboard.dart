@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'pages/home_dashboard.dart';
 import 'pages/transactions_page.dart';
 import 'pages/accounts_page.dart';
-import 'pages/ledger_accounts_page.dart';
+import 'pages/reports_page.dart';
 import 'pages/settings_page.dart';
 import 'widgets/appbar.dart';
 
@@ -16,11 +16,11 @@ class DashboardMainScreen extends StatefulWidget {
 
 class _DashboardMainScreenState extends State<DashboardMainScreen> {
   int _currentIndex = 0;
-    static const List<String> _tabTitles = [
+  static const List<String> _tabTitles = [
     'Home',
     'Transactions',
     'Accounts',
-    'Ledger',
+    'Reports',
     'Settings',
   ];
   final List<GlobalKey<NavigatorState>> _navigatorKeys = List.generate(
@@ -66,7 +66,7 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
       HomeDashboard(businessName: widget.businessName),
       const TransactionsPage(),
       const AccountsPage(),
-      const LedgerAccountsPage(),
+      const ReportsPage(),
       const SettingsPage(),
     ];
 
@@ -103,8 +103,8 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
               label: 'Accounts',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance_wallet),
-              label: 'Ledger',
+              icon: Icon(Icons.assessment),
+              label: 'Reports',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
