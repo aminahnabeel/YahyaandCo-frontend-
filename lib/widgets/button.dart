@@ -10,6 +10,8 @@ class RoundedPrimaryButton extends StatelessWidget {
     this.height = 50,
     this.width = 220,
     this.maxWidth,
+    this.backgroundColor,
+    this.elevation = 0,
   });
 
   final String label;
@@ -19,24 +21,26 @@ class RoundedPrimaryButton extends StatelessWidget {
   final double height;
   final double width;
   final double? maxWidth;
+  final Color? backgroundColor;
+  final double elevation;
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).colorScheme.primary;
+    final primaryColor = backgroundColor ?? Theme.of(context).colorScheme.primary;
 
     Widget buttonChild = ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        elevation: 0,
+        elevation: elevation,
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
-        shadowColor: Colors.transparent,
+        shadowColor: Colors.black45,
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 12,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
         ),
       ),
       child: Row(

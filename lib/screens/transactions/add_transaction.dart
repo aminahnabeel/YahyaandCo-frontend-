@@ -1,29 +1,77 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../starting/language/app_language.dart';
 import '../../widgets/button.dart';
 import '../../widgets/appbar.dart';
 
 class AddTransactionPage extends StatefulWidget {
-  const AddTransactionPage({super.key});
+  const AddTransactionPage({super.key, this.initialData});
+
+  final Map<String, dynamic>? initialData;
 
   @override
   State<AddTransactionPage> createState() => _AddTransactionPageState();
 }
 
 class _AddTransactionPageState extends State<AddTransactionPage> {
+  final TextEditingController _titleController = TextEditingController();
   String? _account = 'Main Bank Account';
   final TextEditingController _amountController = TextEditingController();
   bool _isDebit = true;
   String? _paymentMethod = 'Cash';
   DateTime? _date;
   final TextEditingController _notesController = TextEditingController();
+  File? _attachedImage;
 
   @override
   void dispose() {
+    _titleController.dispose();
     _amountController.dispose();
     _notesController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final d = widget.initialData;
+    if (d != null) {
+      _titleController.text = d['title']?.toString() ?? '';
+      _account = d['account'] as String? ?? _account;
+      _amountController.text = d['amount']?.toString() ?? '';
+      _isDebit = (d['type']?.toString() ?? 'debit') == 'debit';
+      _paymentMethod = d['paymentMethod'] as String? ?? _paymentMethod;
+      if (d['date'] != null) {
+        try {
+          _date = DateTime.tryParse(d['date'].toString());
+        } catch (_) {}
+      }
+      _notesController.text = d['notes']?.toString() ?? '';
+      if (d['imagePath'] != null) {
+        try {
+          final p = d['imagePath'].toString();
+          _attachedImage = File(p);
+        } catch (_) {}
+      }
+    }
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final picker = ImagePicker();
+      final XFile? picked = await picker.pickImage(
+        source: source,
+        maxWidth: 1200,
+        maxHeight: 1200,
+        imageQuality: 80,
+      );
+      if (picked != null) setState(() => _attachedImage = File(picked.path));
+    } catch (e) {
+      // ignore errors for now
+    }
   }
 
   Future<void> _pickDate() async {
@@ -40,6 +88,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   void _save() {
     // For now simply pop with a simple result map — integrate with backend later.
     final data = {
+      'title': _titleController.text,
       'account': _account,
       'amount': _amountController.text,
       'type': _isDebit ? 'debit' : 'credit',
@@ -78,6 +127,27 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // Transaction name
+                      Text(
+                        'Transaction Name',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(
+                          hintText: 'Transaction Name',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
                       // Account
                       Text(
                         strings.accountNameLabel,
@@ -272,6 +342,64 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
+                      // Attachment row
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () => showModalBottomSheet(
+                                context: context,
+                                builder: (_) => SafeArea(
+                                  child: Wrap(
+                                    children: [
+                                      ListTile(
+                                        leading: const Icon(Icons.photo),
+                                        title: const Text('Choose from Gallery'),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          _pickImage(ImageSource.gallery);
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(Icons.camera_alt),
+                                        title: const Text('Take Photo'),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          _pickImage(ImageSource.camera);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              icon: const Icon(Icons.attach_file),
+                              label: const Text('Attach Image'),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      if (_attachedImage != null) ...[
+                        SizedBox(
+                          height: 120,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              _attachedImage!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
                       TextField(
                         controller: _notesController,
                         maxLines: 4,

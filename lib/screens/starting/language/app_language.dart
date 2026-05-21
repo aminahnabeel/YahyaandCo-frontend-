@@ -34,7 +34,6 @@ class AppLanguageController extends ValueNotifier<AppLanguage> {
     'Track all cash inflows and outflows with running balance':
       'Running balance ke sath tamam cash aamad aur kharch track karein',
     'Calculator': 'Calculator',
-    'Search': 'Search',
     'Search accounts, vouchers, transactions, notes':
       'Accounts, vouchers, transactions, notes search karein',
     'Accounts': 'Accounts',

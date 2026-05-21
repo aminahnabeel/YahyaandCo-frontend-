@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'home_dashboard.dart';
 import '../transactions/transactions_page.dart';
 import '../accounts/accounts_page.dart';
-import '../search/search_page.dart';
 import '../reports/reports_page.dart';
 import '../settings/settings_page.dart';
 import '../starting/language/app_language.dart';
@@ -19,7 +18,7 @@ class DashboardMainScreen extends StatefulWidget {
 class _DashboardMainScreenState extends State<DashboardMainScreen> {
   int _currentIndex = 0;
   final List<GlobalKey<NavigatorState>> _navigatorKeys = List.generate(
-    5,
+    4,
     (_) => GlobalKey<NavigatorState>(),
   );
 
@@ -63,7 +62,6 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
       strings.transactionsTabTitle,
       strings.accountsTabTitle,
       appLanguageController.tr('Reports'),
-      strings.settingsTabTitle,
     ];
 
     final pages = [
@@ -71,7 +69,6 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
       const TransactionsPage(),
       const AccountsPage(),
       const ReportsPage(),
-      const SettingsPage(),
     ];
 
     // WillPopScope is deprecated in newer Flutter SDKs in favor of PopScope.
@@ -84,21 +81,17 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
         appBar: CustomAppBar(
           title: tabTitles[_currentIndex],
           showTitle: true,
-          actions: _currentIndex == 0
-              ? [
-                  IconButton(
-                    tooltip: appLanguageController.tr('Search'),
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                          builder: (_) => const SearchPage(),
-                        ),
-                      );
-                    },
-                  ),
-                ]
-              : null,
+          actions: [
+            IconButton(
+              tooltip: strings.settingsTabTitle,
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(builder: (_) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
         ),
         body: Stack(
           children: List.generate(
@@ -130,10 +123,6 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
             BottomNavigationBarItem(
               icon: const Icon(Icons.assessment),
               label: appLanguageController.tr('Reports'),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.settings),
-              label: strings.settingsTabTitle,
             ),
           ],
         ),

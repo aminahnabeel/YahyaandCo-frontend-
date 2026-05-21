@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../starting/language/app_language.dart';
+import 'add_transaction.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -107,64 +108,191 @@ class _TransactionsPageState extends State<TransactionsPage> {
     );
   }
 
+  Future<void> _showEditDialog(int index) async {
+    final t = _transactions[index];
+    final routeResult = await Navigator.of(context).push<Map<String, dynamic>>(
+      MaterialPageRoute(
+        builder: (_) => AddTransactionPage(initialData: Map<String, dynamic>.from(t)),
+      ),
+    );
+    if (routeResult != null) {
+      // Map returned -> update transaction
+      setState(() {
+        final amount = routeResult['amount']?.toString() ?? t['amount']!;
+        final type = (routeResult['type']?.toString() ?? t['type']!);
+        _transactions[index] = {
+          'title': routeResult['title']?.toString() ?? t['title']!,
+          'date': _dateLabelFromIso(routeResult['date']?.toString()),
+          'amount': _formatAmount(amount, type),
+          'type': type,
+        };
+      });
+    }
+  }
+
+  Future<void> _deleteTransaction(int index) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Transaction'),
+        content: const Text('Are you sure you want to delete this transaction?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
+          ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), child: const Text('Delete')),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      setState(() => _transactions.removeAt(index));
+    }
+  }
+
+  Future<void> _showAddDialog() async {
+    final routeResult = await Navigator.of(context).push<Map<String, dynamic>>(
+      MaterialPageRoute(builder: (_) => const AddTransactionPage()),
+    );
+    if (routeResult != null) {
+      setState(() {
+        final amount = routeResult['amount']?.toString() ?? '+0.00';
+        final type = (routeResult['type']?.toString() ?? 'debit');
+        _transactions.insert(0, {
+          'title': routeResult['title']?.toString() ?? 'New Transaction',
+          'date': _dateLabelFromIso(routeResult['date']?.toString()),
+          'amount': _formatAmount(amount, type),
+          'type': type,
+        });
+      });
+    }
+  }
+
+  String _dateLabelFromIso(String? iso) {
+    if (iso == null) return 'Today';
+    try {
+      final d = DateTime.parse(iso);
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final od = DateTime(d.year, d.month, d.day);
+      final diff = today.difference(od).inDays;
+      if (diff == 0) return 'Today';
+      if (diff == 1) return 'Yesterday';
+      return '${od.day}/${od.month}/${od.year}';
+    } catch (_) {
+      return iso;
+    }
+  }
+
+  String _formatAmount(String amount, String type) {
+    var a = amount.trim();
+    if (a.isEmpty) a = '0.00';
+    if (!a.startsWith('+') && !a.startsWith('-')) {
+      a = (type == 'credit' ? '+' : '-') + a;
+    }
+    return a;
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = appLanguageController.strings;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 6),
-            Text(
-              strings.transactionsTitle,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: (_) => setState(() {}),
-                    decoration: InputDecoration(
-                      hintText: strings.searchTransactions,
-                      prefixIcon: const Icon(Icons.search),
-                      filled: true,
-                      fillColor: Theme.of(context).cardColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 6),
+              Text(
+                strings.transactionsTitle,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (_) => setState(() {}),
+                      decoration: InputDecoration(
+                        hintText: strings.searchTransactions,
+                        prefixIcon: const Icon(Icons.search),
+                        filled: true,
+                        fillColor: Theme.of(context).cardColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                PopupMenuButton<int>(
-                  icon: const Icon(Icons.filter_list),
-                  onSelected: (v) => setState(() => _filter = v),
-                  itemBuilder: (_) => [
-                    PopupMenuItem(value: 0, child: Text(strings.allFilter)),
-                    PopupMenuItem(value: 1, child: Text(strings.creditFilter)),
-                    PopupMenuItem(value: 2, child: Text(strings.debitFilter)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _filteredTransactions.length,
-                itemBuilder: (ctx, i) {
-                  final t = _filteredTransactions[i];
-                  return _transactionTile(ctx, t, strings);
-                },
+                  const SizedBox(width: 12),
+                  PopupMenuButton<int>(
+                    icon: const Icon(Icons.filter_list),
+                    onSelected: (v) => setState(() => _filter = v),
+                    itemBuilder: (_) => [
+                      PopupMenuItem(value: 0, child: Text(strings.allFilter)),
+                      PopupMenuItem(value: 1, child: Text(strings.creditFilter)),
+                      PopupMenuItem(value: 2, child: Text(strings.debitFilter)),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 8),
-          ],
+              const SizedBox(height: 12),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _filteredTransactions.length,
+                  itemBuilder: (ctx, i) {
+                    final t = _filteredTransactions[i];
+                    // need original index in _transactions to allow delete/edit
+                    final originalIndex = _transactions.indexOf(t);
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: ListTile(
+                        title: Text(
+                          _localizeTxText(t['title']!),
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        subtitle: Text(
+                          _localizeTxText(t['date']!),
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              t['amount']!,
+                              style: TextStyle(
+                                color: (t['type'] == 'credit') ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.error,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            PopupMenuButton<String>(
+                              onSelected: (v) async {
+                                if (v == 'edit') await _showEditDialog(originalIndex);
+                                if (v == 'delete') await _deleteTransaction(originalIndex);
+                              },
+                              itemBuilder: (_) => [
+                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                              ],
+                            ),
+                          ],
+                        ),
+                        onTap: () {},
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showAddDialog,
+        label: const Text('Add'),
+        icon: const Icon(Icons.add),
       ),
     );
   }

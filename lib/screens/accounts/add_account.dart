@@ -12,12 +12,14 @@ class AddAccountPage extends StatefulWidget {
 }
 
 class _AddAccountPageState extends State<AddAccountPage> {
-  String _currency = 'INR (₹)';
-  String _accountType = 'Bank';
+  String _accountType = 'Asset';
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _codeController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   final TextEditingController _openingBalanceController =
       TextEditingController();
+
+  final Color _navy = const Color(0xFF09263A);
 
   @override
   void initState() {
@@ -28,15 +30,18 @@ class _AddAccountPageState extends State<AddAccountPage> {
   @override
   void dispose() {
     _nameController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
     _openingBalanceController.dispose();
     super.dispose();
   }
 
   void _save() {
     final data = {
-      'currency': _currency,
       'accountType': _accountType,
       'name': _nameController.text,
+      'phone': _phoneController.text,
+      'address': _addressController.text,
       'openingBalance': _openingBalanceController.text,
     };
     Navigator.of(context).pop(data);
@@ -46,15 +51,33 @@ class _AddAccountPageState extends State<AddAccountPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final strings = appLanguageController.strings;
-    final currencies = ['INR (₹)', 'USD ()', 'EUR (€)', 'GBP (£)'];
     final accountTypes = [
-      'Bank',
+      'Asset',
+      'Liability',
+      'Income',
+      'Expense',
       'Cash',
-      'Receivable (Customer)',
-      'Payable (Supplier)',
-      'Credit Card',
-      'Loan',
+      'Bank',
     ];
+
+    InputDecoration fieldDecoration({String? hint, String? label}) => InputDecoration(
+          hintText: hint,
+          labelText: label,
+          labelStyle: const TextStyle(fontSize: 13, color: Colors.black87),
+          hintStyle: TextStyle(color: Colors.grey[600], fontSize: 18),
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey.shade400, width: 1.4),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: _navy, width: 2),
+          ),
+        );
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -64,163 +87,67 @@ class _AddAccountPageState extends State<AddAccountPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        strings.accountNameLabel,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          hintText: strings.accountNameHint,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 14,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      Text(
-                        strings.accountTypeLabel,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      DropdownButtonFormField<String>(
-                        value: _accountType,
-                        items: accountTypes
-                            .map(
-                              (t) => DropdownMenuItem(value: t, child: Text(t)),
-                            )
-                            .toList(),
-                        onChanged: (v) =>
-                            setState(() => _accountType = v ?? _accountType),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      Text(
-                        strings.accountCodeLabel,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: _codeController,
-                        decoration: InputDecoration(
-                          hintText: strings.accountCodeHint,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 14,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      Text(
-                        strings.currencyLabel,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      DropdownButtonFormField<String>(
-                        value: _currency,
-                        items: currencies
-                            .map(
-                              (c) => DropdownMenuItem(value: c, child: Text(c)),
-                            )
-                            .toList(),
-                        onChanged: (v) =>
-                            setState(() => _currency = v ?? _currency),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      Text(
-                        strings.openingBalanceLabel,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: _openingBalanceController,
-                        keyboardType: TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '0.00',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              // Account Name
+              TextField(
+                controller: _nameController,
+                decoration: fieldDecoration(hint: 'Account Name'),
+                style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 18),
+
+              // Account Type label + dropdown (styled large)
+              DropdownButtonFormField<String>(
+                value: _accountType,
+                items: accountTypes
+                    .map((t) => DropdownMenuItem(value: t, child: Text(t)))
+                    .toList(),
+                onChanged: (v) => setState(() => _accountType = v ?? _accountType),
+                decoration: fieldDecoration(label: 'Account Type'),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                icon: const Icon(Icons.arrow_drop_down),
+              ),
+              const SizedBox(height: 18),
+
+              // Phone
+              TextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: fieldDecoration(hint: 'Phone'),
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 18),
+
+              // Address
+              TextField(
+                controller: _addressController,
+                decoration: fieldDecoration(hint: 'Address'),
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 18),
+
+              // Opening Balance
+              TextField(
+                controller: _openingBalanceController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: fieldDecoration(hint: 'Opening Balance'),
+                style: const TextStyle(fontSize: 18),
+              ),
+
+              const SizedBox(height: 26),
               RoundedPrimaryButton(
-                label: strings.createAccount,
+                label: 'Save Account',
                 onPressed: _save,
                 fullWidth: true,
+                backgroundColor: _navy,
+                height: 56,
+                elevation: 6,
               ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.surfaceVariant,
-                    foregroundColor: theme.colorScheme.onSurface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: Text(
-                    strings.cancel,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 24),
             ],
           ),
         ),
