@@ -3,6 +3,8 @@ import '../ledger/ledger_accounts_page.dart';
 import '../starting/language/app_language.dart';
 import 'trial_balance_page.dart';
 import 'cash_book_page.dart';
+import 'profit_and_loss_page.dart';
+import 'balance_sheet_page.dart';
 
 class ReportsPage extends StatelessWidget {
   const ReportsPage({super.key});
@@ -27,10 +29,26 @@ class ReportsPage extends StatelessWidget {
       },
       {
         'title': tr('Cash Book'),
-        'description': tr('Track all cash inflows and outflows with running balance'),
+        'description': tr(
+          'Track all cash inflows and outflows with running balance',
+        ),
         'icon': Icons.monetization_on,
         'iconColor': Colors.amber,
         'page': const CashBookPage(),
+      },
+      {
+        'title': tr('Profit & Loss'),
+        'description': tr('Revenue, expenses, and net profit calculation'),
+        'icon': Icons.trending_up,
+        'iconColor': Colors.teal,
+        'page': const ProfitAndLossPage(),
+      },
+      {
+        'title': tr('Balance Sheet'),
+        'description': tr('Assets, liabilities, and equity snapshot'),
+        'icon': Icons.assessment,
+        'iconColor': Colors.purple,
+        'page': const BalanceSheetPage(),
       },
     ];
 
@@ -96,11 +114,8 @@ class ReportsPage extends StatelessWidget {
                             const SizedBox(height: 6),
                             Text(
                               report['description'] as String,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: Colors.grey[600]),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),

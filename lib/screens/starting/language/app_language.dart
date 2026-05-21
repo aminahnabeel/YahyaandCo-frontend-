@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum AppLanguage {
-  english,
-  romanUrdu,
-}
+enum AppLanguage { english, romanUrdu }
 
 class AppLanguageController extends ValueNotifier<AppLanguage> {
   AppLanguageController() : super(AppLanguage.english);
@@ -28,14 +25,14 @@ class AppLanguageController extends ValueNotifier<AppLanguage> {
     'Reports': 'Reports',
     'Cash Book': 'Cash Book',
     'View account-wise transactions and running balance':
-      'Account wise transactions aur running balance dekhein',
+        'Account wise transactions aur running balance dekhein',
     'Summary of all account debit and credit balances':
-      'Tamam accounts ke debit aur credit balance ka khulasa',
+        'Tamam accounts ke debit aur credit balance ka khulasa',
     'Track all cash inflows and outflows with running balance':
-      'Running balance ke sath tamam cash aamad aur kharch track karein',
+        'Running balance ke sath tamam cash aamad aur kharch track karein',
     'Calculator': 'Calculator',
     'Search accounts, vouchers, transactions, notes':
-      'Accounts, vouchers, transactions, notes search karein',
+        'Accounts, vouchers, transactions, notes search karein',
     'Accounts': 'Accounts',
     'Vouchers': 'Vouchers',
     'Transactions': 'Transactions',
@@ -73,11 +70,28 @@ class AppLanguageController extends ValueNotifier<AppLanguage> {
     'Enter description': 'Wazahat likhein',
     'Journal Voucher': 'Journal Voucher',
     'Cash Payment': 'Cash Payment',
+    'Profit & Loss': 'Munafa aur Nuqsan',
+    'Balance Sheet': 'Balance Sheet',
+    'Revenue, expenses, and net profit calculation':
+        'Aamad, kharch, aur khulis munafa ki gushmulhaa',
+    'Assets, liabilities, and equity snapshot':
+        'Zail, Zimadari, aur Hissay ka snapshot',
+    'Profit': 'Munafa',
+    'Loss': 'Nuqsan',
+    'Total Income': 'Kul Aamad',
+    'Total Expenses': 'Kul Kharch',
+    'Net Profit': 'Khulis Munafa',
+    'Net Loss': 'Khulis Nuqsan',
+    'Assets': 'Zail',
+    'Liabilities': 'Zimadari',
+    'Total Assets': 'Kul Zail',
+    'Total Liabilities': 'Kul Zimadari',
+    'Balance Sheet Balanced': 'Balance Sheet Barabar hai',
+    'Balance Sheet Not Balanced': 'Balance Sheet Barabar nahi hai',
   };
 }
 
-final AppLanguageController appLanguageController =
-    AppLanguageController();
+final AppLanguageController appLanguageController = AppLanguageController();
 
 class AppStrings {
   const AppStrings({
@@ -192,6 +206,22 @@ class AppStrings {
     required this.totalCreditsLabel,
     required this.totalDebitsLabel,
     required this.closingBalanceLabel,
+    required this.profitAndLossTitle,
+    required this.balanceSheetTitle,
+    required this.profitAndLossDescription,
+    required this.balanceSheetDescription,
+    required this.profitLabel,
+    required this.lossLabel,
+    required this.totalIncomeLabel,
+    required this.totalExpensesLabel,
+    required this.netProfitLabel,
+    required this.netLossLabel,
+    required this.assetsLabel,
+    required this.liabilitiesLabel,
+    required this.totalAssetsLabel,
+    required this.totalLiabilitiesLabel,
+    required this.balanceSheetBalancedLabel,
+    required this.balanceSheetNotBalancedLabel,
   });
 
   final String appTitle;
@@ -305,6 +335,22 @@ class AppStrings {
   final String totalCreditsLabel;
   final String totalDebitsLabel;
   final String closingBalanceLabel;
+  final String profitAndLossTitle;
+  final String balanceSheetTitle;
+  final String profitAndLossDescription;
+  final String balanceSheetDescription;
+  final String profitLabel;
+  final String lossLabel;
+  final String totalIncomeLabel;
+  final String totalExpensesLabel;
+  final String netProfitLabel;
+  final String netLossLabel;
+  final String assetsLabel;
+  final String liabilitiesLabel;
+  final String totalAssetsLabel;
+  final String totalLiabilitiesLabel;
+  final String balanceSheetBalancedLabel;
+  final String balanceSheetNotBalancedLabel;
 
   static AppStrings fromLanguage(AppLanguage language) {
     switch (language) {
@@ -320,8 +366,8 @@ class AppStrings {
           homeTitle: 'Home',
           homeMessage: 'You are now using the app in English.',
           homeAction: 'Start using the app',
-            signInTitle: 'Welcome back',
-            signInSubtitle:
+          signInTitle: 'Welcome back',
+          signInSubtitle:
               'Log in to manage your businesses and ledger entries.',
           emailTitle: 'Create Account',
           nameLabel: 'Name',
@@ -423,23 +469,38 @@ class AppStrings {
           totalCreditsLabel: 'Total Credits',
           totalDebitsLabel: 'Total Debits',
           closingBalanceLabel: 'Closing Balance',
+          profitAndLossTitle: 'Profit & Loss',
+          balanceSheetTitle: 'Balance Sheet',
+          profitAndLossDescription:
+              'Revenue, expenses, and net profit calculation',
+          balanceSheetDescription: 'Assets, liabilities, and equity snapshot',
+          profitLabel: 'Profit',
+          lossLabel: 'Loss',
+          totalIncomeLabel: 'Total Income',
+          totalExpensesLabel: 'Total Expenses',
+          netProfitLabel: 'Net Profit',
+          netLossLabel: 'Net Loss',
+          assetsLabel: 'Assets',
+          liabilitiesLabel: 'Liabilities',
+          totalAssetsLabel: 'Total Assets',
+          totalLiabilitiesLabel: 'Total Liabilities',
+          balanceSheetBalancedLabel: 'Balance Sheet Balanced',
+          balanceSheetNotBalancedLabel: 'Balance Sheet Not Balanced',
         );
 
       case AppLanguage.romanUrdu:
         return const AppStrings(
           appTitle: 'Yahya & Co',
           chooseLanguageTitle: 'Zaban muntakhib karein',
-          chooseLanguageSubtitle:
-              'App ke liye apni zaban select karein.',
+          chooseLanguageSubtitle: 'App ke liye apni zaban select karein.',
           englishOption: 'English',
           romanUrduOption: 'Roman Urdu',
           continueButton: 'Aagay barhein',
           homeTitle: 'Markazi Safha',
-          homeMessage:
-              'Aap ab app ko Roman Urdu mein istemal kar rahe hain.',
+          homeMessage: 'Aap ab app ko Roman Urdu mein istemal kar rahe hain.',
           homeAction: 'App istemal karna shuru karein',
-            signInTitle: 'Khush aamdeed',
-            signInSubtitle:
+          signInTitle: 'Khush aamdeed',
+          signInSubtitle:
               'Apne businesses aur ledger entries manage karne ke liye login karein.',
           emailTitle: 'Account Banayein',
           nameLabel: 'Naam',
@@ -460,88 +521,106 @@ class AppStrings {
           saveBusiness: 'Business save karein',
           enterBusinessFieldsError:
               'Meharbani karke naam aur business type dono daalein.',
-            homeTabTitle: 'Home',
-            transactionsTabTitle: 'Transactions',
-            accountsTabTitle: 'Accounts',
-            ledgerTabTitle: 'Ledger',
-            settingsTabTitle: 'Settings',
-            totalBalance: 'Kul Balance',
-            cashInHand: 'Cash Maujood',
-            receivables: 'Wusooli',
-            payables: 'Daini',
-            addTransaction: 'Transaction add karein',
-            addAccount: 'Account add karein',
-            journalEntry: 'Journal Entry',
-            ledger: 'Ledger',
-            recentTransactions: 'Haal ki Transactions',
-            officeRent: 'Office Kiraya',
-            clientPayment: 'Client ki Adaigi',
-            utilities: 'Utility Bills',
-            salesRevenue: 'Sale ki Aamdani',
-            today: 'Aaj',
-            yesterday: 'Kal',
-            transactionsTitle: 'Transactions',
-            searchTransactions: 'Transactions dhoondein',
-            allFilter: 'Sab',
-            creditFilter: 'Credit',
-            debitFilter: 'Debit',
-            addAccountTitle: 'Account add karein',
-            accountNameLabel: 'Account ka naam',
-            accountNameHint: 'Misal: Main Bank Account',
-            accountTypeLabel: 'Account ki qism',
-            accountCodeLabel: 'Account code',
-            accountCodeHint: 'Misal: ACC-001',
-            currencyLabel: 'Currency',
-            openingBalanceLabel: 'Ibtidai balance',
-            createAccount: 'Account banayein',
-            cancel: 'Cancel',
-            addTransactionTitle: 'Transaction add karein',
-            amountLabel: 'Raqam',
-            typeLabel: 'Type',
-            debitLabel: 'Debit',
-            creditLabel: 'Credit',
-            paymentMethodLabel: 'Adaigi ka tareeqa',
-            dateLabel: 'Tareekh',
-            notesLabel: 'Notes',
-            saveTransaction: 'Transaction save karein',
-            ledgerAccountsTitle: 'Ledger Accounts',
-            searchAccountHint: 'Account ka naam ya code dhoondein...',
-            journalListTitle: 'Journal',
-            preferencesSection: 'Tarjeehat',
-            accountSection: 'Account',
-            informationSection: 'Maloomat',
-            notificationsLabel: 'Notifications',
-            darkModeLabel: 'Dark Mode',
-            twoFactorLabel: 'Two-Factor Auth',
-            changePasswordLabel: 'Password badlein',
-            emailPreferencesLabel: 'Email tarjeehat',
-            manageBusinessesLabel: 'Businesses manage karein',
-            aboutLedgerAppLabel: 'Ledger App ke bare me',
-            termsConditionsLabel: 'Terms & Conditions',
-            privacyPolicyLabel: 'Privacy Policy',
-            logoutLabel: 'Logout',
-            profileName: 'John Doe',
-            profileEmail: 'john@example.com',
-            journalVoucherLabel: 'Voucher',
-            journalDateLabel: 'Date',
-            journalDescriptionLabel: 'Wazahat',
-            journalAccountLabel: 'Account',
-            journalDebitLabel: 'Debit',
-            journalCreditLabel: 'Credit',
-            addLineButton: 'Line add karein',
-            removeLineButton: 'Hatayein',
-            saveEntryButton: 'Entry save karein',
-            debitCreditMismatchError: 'Debit aur Credit ka total barabar hona chahiye',
-            voucherTypeLabel: 'Voucher ki qism',
-            voucherNumberLabel: 'Voucher number',
-            journalEntriesLabel: 'Journal Entries',
-            journalEntryPageTitle: 'Journal Entry banayein',
-            trialBalanceTitle: 'Trial Balance',
-            ledgerSummaryTitle: 'Ledger Summary',
-            totalLabel: 'Total',
-            totalCreditsLabel: 'Kul Credits',
-            totalDebitsLabel: 'Kul Debits',
-            closingBalanceLabel: 'Ikhtitami Balance',
+          homeTabTitle: 'Home',
+          transactionsTabTitle: 'Transactions',
+          accountsTabTitle: 'Accounts',
+          ledgerTabTitle: 'Ledger',
+          settingsTabTitle: 'Settings',
+          totalBalance: 'Kul Balance',
+          cashInHand: 'Cash Maujood',
+          receivables: 'Wusooli',
+          payables: 'Daini',
+          addTransaction: 'Transaction add karein',
+          addAccount: 'Account add karein',
+          journalEntry: 'Journal Entry',
+          ledger: 'Ledger',
+          recentTransactions: 'Haal ki Transactions',
+          officeRent: 'Office Kiraya',
+          clientPayment: 'Client ki Adaigi',
+          utilities: 'Utility Bills',
+          salesRevenue: 'Sale ki Aamdani',
+          today: 'Aaj',
+          yesterday: 'Kal',
+          transactionsTitle: 'Transactions',
+          searchTransactions: 'Transactions dhoondein',
+          allFilter: 'Sab',
+          creditFilter: 'Credit',
+          debitFilter: 'Debit',
+          addAccountTitle: 'Account add karein',
+          accountNameLabel: 'Account ka naam',
+          accountNameHint: 'Misal: Main Bank Account',
+          accountTypeLabel: 'Account ki qism',
+          accountCodeLabel: 'Account code',
+          accountCodeHint: 'Misal: ACC-001',
+          currencyLabel: 'Currency',
+          openingBalanceLabel: 'Ibtidai balance',
+          createAccount: 'Account banayein',
+          cancel: 'Cancel',
+          addTransactionTitle: 'Transaction add karein',
+          amountLabel: 'Raqam',
+          typeLabel: 'Type',
+          debitLabel: 'Debit',
+          creditLabel: 'Credit',
+          paymentMethodLabel: 'Adaigi ka tareeqa',
+          dateLabel: 'Tareekh',
+          notesLabel: 'Notes',
+          saveTransaction: 'Transaction save karein',
+          ledgerAccountsTitle: 'Ledger Accounts',
+          searchAccountHint: 'Account ka naam ya code dhoondein...',
+          journalListTitle: 'Journal',
+          preferencesSection: 'Tarjeehat',
+          accountSection: 'Account',
+          informationSection: 'Maloomat',
+          notificationsLabel: 'Notifications',
+          darkModeLabel: 'Dark Mode',
+          twoFactorLabel: 'Two-Factor Auth',
+          changePasswordLabel: 'Password badlein',
+          emailPreferencesLabel: 'Email tarjeehat',
+          manageBusinessesLabel: 'Businesses manage karein',
+          aboutLedgerAppLabel: 'Ledger App ke bare me',
+          termsConditionsLabel: 'Terms & Conditions',
+          privacyPolicyLabel: 'Privacy Policy',
+          logoutLabel: 'Logout',
+          profileName: 'John Doe',
+          profileEmail: 'john@example.com',
+          journalVoucherLabel: 'Voucher',
+          journalDateLabel: 'Date',
+          journalDescriptionLabel: 'Wazahat',
+          journalAccountLabel: 'Account',
+          journalDebitLabel: 'Debit',
+          journalCreditLabel: 'Credit',
+          addLineButton: 'Line add karein',
+          removeLineButton: 'Hatayein',
+          saveEntryButton: 'Entry save karein',
+          debitCreditMismatchError:
+              'Debit aur Credit ka total barabar hona chahiye',
+          voucherTypeLabel: 'Voucher ki qism',
+          voucherNumberLabel: 'Voucher number',
+          journalEntriesLabel: 'Journal Entries',
+          journalEntryPageTitle: 'Journal Entry banayein',
+          trialBalanceTitle: 'Trial Balance',
+          ledgerSummaryTitle: 'Ledger Summary',
+          totalLabel: 'Total',
+          totalCreditsLabel: 'Kul Credits',
+          totalDebitsLabel: 'Kul Debits',
+          closingBalanceLabel: 'Ikhtitami Balance',
+          profitAndLossTitle: 'Munafa aur Nuqsan',
+          balanceSheetTitle: 'Balance Sheet',
+          profitAndLossDescription:
+              'Aamad, kharch, aur khulis munafa ki gushmulhaa',
+          balanceSheetDescription: 'Zail, Zimadari, aur Hissay ka snapshot',
+          profitLabel: 'Munafa',
+          lossLabel: 'Nuqsan',
+          totalIncomeLabel: 'Kul Aamad',
+          totalExpensesLabel: 'Kul Kharch',
+          netProfitLabel: 'Khulis Munafa',
+          netLossLabel: 'Khulis Nuqsan',
+          assetsLabel: 'Zail',
+          liabilitiesLabel: 'Zimadari',
+          totalAssetsLabel: 'Kul Zail',
+          totalLiabilitiesLabel: 'Kul Zimadari',
+          balanceSheetBalancedLabel: 'Balance Sheet Barabar hai',
+          balanceSheetNotBalancedLabel: 'Balance Sheet Barabar nahi hai',
         );
     }
   }
