@@ -485,7 +485,7 @@ class _DownloadBottomSheetState extends State<_DownloadBottomSheet> {
       builder: (context, scrollController) => SingleChildScrollView(
         controller: scrollController,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
