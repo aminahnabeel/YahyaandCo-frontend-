@@ -248,69 +248,155 @@ class _JournalEntryPageState extends State<JournalEntryPage> {
                             style: TextStyle(color: theme.colorScheme.error),
                           ),
                         ),
+
+                      // Header row like the screenshot
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(child: Text('Account', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600))),
+                            SizedBox(width: 100, child: Text('Debit', textAlign: TextAlign.center, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600))),
+                            SizedBox(width: 100, child: Text('Credit', textAlign: TextAlign.center, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600))),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
                       ..._lines.asMap().entries.map((entry) {
                         final index = entry.key;
                         final line = entry.value;
 
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: TextField(
-                                  controller: line.accountController,
-                                  decoration: InputDecoration(
-                                    labelText: strings.journalAccountLabel,
-                                    border: OutlineInputBorder(),
-                                    isDense: true,
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.grey.shade200),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  // Account field
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.blue.shade900),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            controller: line.accountController,
+                                            decoration: InputDecoration(
+                                              hintText: strings.journalAccountLabel,
+                                              border: InputBorder.none,
+                                              isDense: true,
+                                            ),
+                                          ),
+                                        ),
+                                        const Icon(Icons.arrow_drop_down, color: Colors.grey),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  controller: line.debitController,
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.right,
-                                  decoration: InputDecoration(
-                                    labelText: strings.journalDebitLabel,
-                                    border: OutlineInputBorder(),
-                                    isDense: true,
+                                  const SizedBox(height: 12),
+
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Debit', style: theme.textTheme.bodySmall),
+                                            const SizedBox(height: 6),
+                                            Container(
+                                              height: 52,
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                border: Border.all(color: Colors.grey.shade300),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  controller: line.debitController,
+                                                  keyboardType: TextInputType.number,
+                                                  textAlign: TextAlign.center,
+                                                  textAlignVertical: TextAlignVertical.center,
+                                                  style: const TextStyle(fontSize: 18),
+                                                  decoration: const InputDecoration(border: InputBorder.none, hintText: '0.00', isDense: true, contentPadding: EdgeInsets.zero),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Credit', style: theme.textTheme.bodySmall),
+                                            const SizedBox(height: 6),
+                                            Container(
+                                              height: 52,
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8),
+                                                border: Border.all(color: Colors.grey.shade300),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  controller: line.creditController,
+                                                  keyboardType: TextInputType.number,
+                                                  textAlign: TextAlign.center,
+                                                  textAlignVertical: TextAlignVertical.center,
+                                                  style: const TextStyle(fontSize: 18),
+                                                  decoration: const InputDecoration(border: InputBorder.none, hintText: '0.00', isDense: true, contentPadding: EdgeInsets.zero),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      // Delete icon
+                                      IconButton(
+                                        onPressed: _lines.length > 1 ? () => _removeLine(index) : null,
+                                        icon: const Icon(Icons.close, color: Colors.red),
+                                        tooltip: strings.removeLineButton,
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                ],
                               ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  controller: line.creditController,
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.right,
-                                  decoration: InputDecoration(
-                                    labelText: strings.journalCreditLabel,
-                                    border: OutlineInputBorder(),
-                                    isDense: true,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              IconButton(
-                                onPressed: _lines.length > 1
-                                    ? () => _removeLine(index)
-                                    : null,
-                                icon: const Icon(Icons.delete_outline),
-                                tooltip: strings.removeLineButton,
-                              ),
-                            ],
+                            ),
                           ),
                         );
                       }),
-                      OutlinedButton.icon(
-                        onPressed: _addLine,
-                        icon: const Icon(Icons.add),
-                        label: Text(strings.addLineButton),
+
+                      // Rounded add line button like screenshot
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: _addLine,
+                          icon: Icon(Icons.add, color: theme.colorScheme.primary),
+                          label: Text('Line add karein', style: TextStyle(color: theme.colorScheme.primary)),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.grey.shade400),
+                            shape: const StadiumBorder(),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                        ),
                       ),
                     ],
                   ),

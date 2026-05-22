@@ -5,6 +5,8 @@ import '../../theme/theme_controller.dart';
 import '../../widgets/button.dart';
 import '../starting/auth/signin_screen.dart';
 import 'alert_preferences_page.dart';
+import 'password_reset_page.dart';
+import 'manage_businesses_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -182,7 +184,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: strings.changePasswordLabel,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const PasswordResetPage()),
+                  );
+                },
               ),
               _tile(
                 leading: Icon(
@@ -204,7 +210,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: strings.manageBusinessesLabel,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const ManageBusinessesPage()),
+                  );
+                },
               ),
 
               _sectionTitle(strings.informationSection),
