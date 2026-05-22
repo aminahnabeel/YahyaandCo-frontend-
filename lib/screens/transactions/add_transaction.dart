@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../starting/language/app_language.dart';
 import '../reminders/payment_reminder_controller.dart';
+import '../../state/business_workspace_controller.dart';
 import '../../widgets/button.dart';
 import '../../widgets/appbar.dart';
 
@@ -148,7 +149,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final strings = appLanguageController.strings;
-    final accounts = ['Main Bank Account', 'Cash in Hand', 'Savings Account'];
+    final accounts = businessWorkspaceController.selectedBusiness.accounts
+        .map((account) => account.name)
+        .toList();
     final paymentMethods = ['Cash', 'Bank Transfer', 'Check', 'Digital Wallet'];
 
     return Scaffold(

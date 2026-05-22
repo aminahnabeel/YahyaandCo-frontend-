@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../starting/language/app_language.dart';
 import '../../theme/theme_controller.dart';
 import '../../widgets/button.dart';
+import '../../widgets/business_switcher.dart';
 import '../starting/auth/signin_screen.dart';
 import 'alert_preferences_page.dart';
 import 'password_reset_page.dart';
@@ -117,6 +118,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
+
+              _sectionTitle('Business'),
+              const BusinessSwitcher(),
 
               _sectionTitle(strings.preferencesSection),
               Card(

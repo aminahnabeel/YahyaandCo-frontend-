@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../dashboard/dashboard.dart';
 import '../language/app_language.dart';
 import '../../../widgets/button.dart';
+import '../../../state/business_workspace_controller.dart';
 
 class LogoScreen extends StatefulWidget {
   const LogoScreen({super.key});
@@ -11,12 +12,6 @@ class LogoScreen extends StatefulWidget {
 }
 
 class _LogoScreenState extends State<LogoScreen> {
-  final List<_BusinessItem> _businesses = [
-    const _BusinessItem('Acme Corporation', 'Service Business'),
-    const _BusinessItem('Tech Solutions Ltd', 'Tech Business'),
-    const _BusinessItem('Green Enterprises', 'Trading Business'),
-  ];
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _typeController = TextEditingController();
   int? _selectedIndex;
@@ -89,9 +84,8 @@ class _LogoScreenState extends State<LogoScreen> {
                       return;
                     }
 
-                    setState(() {
-                      _businesses.add(_BusinessItem(name, type));
-                    });
+                    businessWorkspaceController.addBusiness(name: name, type: type);
+                    setState(() {});
                     Navigator.of(sheetContext).pop();
                   },
                 );
@@ -113,6 +107,7 @@ class _LogoScreenState extends State<LogoScreen> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
+            final businesses = businessWorkspaceController.businesses;
             return Stack(
               children: [
                 SingleChildScrollView(
@@ -138,7 +133,7 @@ class _LogoScreenState extends State<LogoScreen> {
                             style: theme.textTheme.bodyMedium,
                           ),
                           const SizedBox(height: 18),
-                          ..._businesses.asMap().entries.map((entry) {
+                          ...businesses.asMap().entries.map((entry) {
                             final business = entry.value;
 
                             final bool isSelected = _selectedIndex == entry.key;
@@ -146,7 +141,7 @@ class _LogoScreenState extends State<LogoScreen> {
 
                             return Padding(
                               padding: EdgeInsets.only(
-                                bottom: entry.key == _businesses.length - 1
+                                bottom: entry.key == businesses.length - 1
                                     ? 0
                                     : 12,
                               ),
@@ -158,6 +153,9 @@ class _LogoScreenState extends State<LogoScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() => _selectedIndex = entry.key);
+                                      businessWorkspaceController.selectBusiness(
+                                        business.id,
+                                      );
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                         builder: (_) => DashboardMainScreen(
@@ -257,11 +255,4 @@ class _LogoScreenState extends State<LogoScreen> {
       ),
     );
   }
-}
-
-class _BusinessItem {
-  const _BusinessItem(this.name, this.type);
-
-  final String name;
-  final String type;
 }
