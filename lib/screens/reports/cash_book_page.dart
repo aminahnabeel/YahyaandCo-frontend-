@@ -85,6 +85,20 @@ class CashBookPage extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: OutlinedButton.icon(
+              onPressed: () => _downloadCashBook(context),
+              icon: const Icon(Icons.download, size: 18),
+              label: Text(tr('Download')),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -215,6 +229,12 @@ class CashBookPage extends StatelessWidget {
       ),
     );
   }
+
+  static void _downloadCashBook(BuildContext context) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Downloading Cash Book...')));
+  }
 }
 
 class _SummaryCard extends StatelessWidget {
@@ -244,9 +264,7 @@ class _SummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: filled ? backgroundColor : theme.cardColor,
         borderRadius: BorderRadius.circular(8),
-        border: filled
-            ? null
-            : Border.all(color: theme.dividerColor),
+        border: filled ? null : Border.all(color: theme.dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -327,7 +345,9 @@ class _TransactionRow extends StatelessWidget {
               textAlign: TextAlign.right,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: inflow.isEmpty ? muted : AppTheme.success,
-                fontWeight: inflow.isEmpty ? FontWeight.normal : FontWeight.w500,
+                fontWeight: inflow.isEmpty
+                    ? FontWeight.normal
+                    : FontWeight.w500,
                 fontSize: 11,
               ),
             ),
@@ -340,7 +360,9 @@ class _TransactionRow extends StatelessWidget {
               textAlign: TextAlign.right,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: outflow.isEmpty ? muted : theme.colorScheme.error,
-                fontWeight: outflow.isEmpty ? FontWeight.normal : FontWeight.w500,
+                fontWeight: outflow.isEmpty
+                    ? FontWeight.normal
+                    : FontWeight.w500,
                 fontSize: 11,
               ),
             ),

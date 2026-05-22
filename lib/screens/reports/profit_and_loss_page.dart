@@ -89,6 +89,20 @@ class ProfitAndLossPage extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: OutlinedButton.icon(
+              onPressed: () => _downloadProfitAndLoss(context),
+              icon: const Icon(Icons.download, size: 18),
+              label: Text(tr('Download')),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -200,6 +214,12 @@ class ProfitAndLossPage extends StatelessWidget {
 
     final formatted = '${parts.join(',')},$lastThree';
     return value < 0 ? '-$formatted' : formatted;
+  }
+
+  static void _downloadProfitAndLoss(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Downloading Profit & Loss...')),
+    );
   }
 }
 

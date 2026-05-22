@@ -97,6 +97,20 @@ class BalanceSheetPage extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: OutlinedButton.icon(
+              onPressed: () => _downloadBalanceSheet(context),
+              icon: const Icon(Icons.download, size: 18),
+              label: Text(tr('Download')),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -202,6 +216,12 @@ class BalanceSheetPage extends StatelessWidget {
 
     final formatted = '${parts.join(',')},$lastThree';
     return value < 0 ? '-$formatted' : formatted;
+  }
+
+  static void _downloadBalanceSheet(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Downloading Balance Sheet...')),
+    );
   }
 }
 

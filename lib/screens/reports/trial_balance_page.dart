@@ -12,58 +12,140 @@ class TrialBalancePage extends StatelessWidget {
     _TrialBalanceGroup(
       title: 'Bank Account',
       entries: [
-        _TrialBalanceEntry(name: 'Faysal Bank', code: '13-0002', debit: 0, credit: 248800),
-        _TrialBalanceEntry(name: 'Askari Bank', code: '13-0004', debit: 0, credit: 1042300),
-        _TrialBalanceEntry(name: 'Mian Trust Bank', code: '13-0016', debit: 0, credit: 1757455),
+        _TrialBalanceEntry(
+          name: 'Faysal Bank',
+          code: '13-0002',
+          debit: 0,
+          credit: 248800,
+        ),
+        _TrialBalanceEntry(
+          name: 'Askari Bank',
+          code: '13-0004',
+          debit: 0,
+          credit: 1042300,
+        ),
+        _TrialBalanceEntry(
+          name: 'Mian Trust Bank',
+          code: '13-0016',
+          debit: 0,
+          credit: 1757455,
+        ),
       ],
     ),
     _TrialBalanceGroup(
       title: 'Capital',
       entries: [
-        _TrialBalanceEntry(name: 'Mian Ehthesham Ahmad', code: '10-0003', debit: 0, credit: 5218150),
-        _TrialBalanceEntry(name: 'Mian Abdul Majid', code: '10-0004', debit: 0, credit: 994280),
+        _TrialBalanceEntry(
+          name: 'Mian Ehthesham Ahmad',
+          code: '10-0003',
+          debit: 0,
+          credit: 5218150,
+        ),
+        _TrialBalanceEntry(
+          name: 'Mian Abdul Majid',
+          code: '10-0004',
+          debit: 0,
+          credit: 994280,
+        ),
       ],
     ),
     _TrialBalanceGroup(
       title: 'Employee Account',
       entries: [
-        _TrialBalanceEntry(name: 'Muhammad Asif Khana Abbasi', code: '11-0001', debit: 0, credit: 543830),
-        _TrialBalanceEntry(name: 'Abdul Kareem Shah', code: '11-0002', debit: 0, credit: 543830),
+        _TrialBalanceEntry(
+          name: 'Muhammad Asif Khana Abbasi',
+          code: '11-0001',
+          debit: 0,
+          credit: 543830,
+        ),
+        _TrialBalanceEntry(
+          name: 'Abdul Kareem Shah',
+          code: '11-0002',
+          debit: 0,
+          credit: 543830,
+        ),
       ],
     ),
     _TrialBalanceGroup(
       title: 'Owner Drawing',
       entries: [
-        _TrialBalanceEntry(name: 'Mian Gul Tahir', code: '12-0003', debit: 0, credit: 38330),
+        _TrialBalanceEntry(
+          name: 'Mian Gul Tahir',
+          code: '12-0003',
+          debit: 0,
+          credit: 38330,
+        ),
       ],
     ),
     _TrialBalanceGroup(
       title: 'Direct Income',
       entries: [
-        _TrialBalanceEntry(name: 'Flour Mill Commission', code: '07-0001', debit: 12220, credit: 0),
-        _TrialBalanceEntry(name: 'Sales Income', code: '08-0005', debit: 0, credit: 388000),
-        _TrialBalanceEntry(name: 'Brokerage', code: '08-0006', debit: 0, credit: 12100),
+        _TrialBalanceEntry(
+          name: 'Flour Mill Commission',
+          code: '07-0001',
+          debit: 12220,
+          credit: 0,
+        ),
+        _TrialBalanceEntry(
+          name: 'Sales Income',
+          code: '08-0005',
+          debit: 0,
+          credit: 388000,
+        ),
+        _TrialBalanceEntry(
+          name: 'Brokerage',
+          code: '08-0006',
+          debit: 0,
+          credit: 12100,
+        ),
       ],
     ),
     _TrialBalanceGroup(
       title: 'Company Expenses',
       entries: [
-        _TrialBalanceEntry(name: 'Taj Flour Mills', code: '09-0001', debit: 1136774, credit: 0),
-        _TrialBalanceEntry(name: 'United Flour Mills', code: '09-0003', debit: 682620, credit: 0),
-        _TrialBalanceEntry(name: 'Ameen Cotton Factory', code: '09-0006', debit: 149862, credit: 0),
-        _TrialBalanceEntry(name: 'AHMAB Cotton Factory', code: '09-0012', debit: 514200, credit: 0),
+        _TrialBalanceEntry(
+          name: 'Taj Flour Mills',
+          code: '09-0001',
+          debit: 1136774,
+          credit: 0,
+        ),
+        _TrialBalanceEntry(
+          name: 'United Flour Mills',
+          code: '09-0003',
+          debit: 682620,
+          credit: 0,
+        ),
+        _TrialBalanceEntry(
+          name: 'Ameen Cotton Factory',
+          code: '09-0006',
+          debit: 149862,
+          credit: 0,
+        ),
+        _TrialBalanceEntry(
+          name: 'AHMAB Cotton Factory',
+          code: '09-0012',
+          debit: 514200,
+          credit: 0,
+        ),
       ],
     ),
     _TrialBalanceGroup(
       title: 'Cash Account',
       entries: [
-        _TrialBalanceEntry(name: 'Cash in Hand', code: '13-0001', debit: 45200, credit: 0),
+        _TrialBalanceEntry(
+          name: 'Cash in Hand',
+          code: '13-0001',
+          debit: 45200,
+          credit: 0,
+        ),
       ],
     ),
   ];
 
-  static int get _totalDebit => _groups.fold<int>(0, (sum, group) => sum + group.totalDebit);
-  static int get _totalCredit => _groups.fold<int>(0, (sum, group) => sum + group.totalCredit);
+  static int get _totalDebit =>
+      _groups.fold<int>(0, (sum, group) => sum + group.totalDebit);
+  static int get _totalCredit =>
+      _groups.fold<int>(0, (sum, group) => sum + group.totalCredit);
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +181,20 @@ class TrialBalancePage extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: OutlinedButton.icon(
+              onPressed: () => _downloadTrialBalance(context),
+              icon: const Icon(Icons.download, size: 18),
+              label: Text(tr('Download')),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,20 +202,28 @@ class TrialBalancePage extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            color: isBalanced ? const Color(0xFFE9F8EE) : const Color(0xFFFCE8E8),
+            color: isBalanced
+                ? const Color(0xFFE9F8EE)
+                : const Color(0xFFFCE8E8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   isBalanced ? Icons.check_circle : Icons.close,
                   size: 18,
-                  color: isBalanced ? AppTheme.success : theme.colorScheme.error,
+                  color: isBalanced
+                      ? AppTheme.success
+                      : theme.colorScheme.error,
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  isBalanced ? tr('Trial Balance Balanced') : tr('Trial Balance Not Balanced'),
+                  isBalanced
+                      ? tr('Trial Balance Balanced')
+                      : tr('Trial Balance Not Balanced'),
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: isBalanced ? AppTheme.success : theme.colorScheme.error,
+                    color: isBalanced
+                        ? AppTheme.success
+                        : theme.colorScheme.error,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -210,6 +314,12 @@ class TrialBalancePage extends StatelessWidget {
     final formatted = '${parts.join(',')},$lastThree';
     return value < 0 ? '-$formatted' : formatted;
   }
+
+  static void _downloadTrialBalance(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Downloading Trial Balance...')),
+    );
+  }
 }
 
 class _TrialBalanceGroup {
@@ -219,7 +329,8 @@ class _TrialBalanceGroup {
   final List<_TrialBalanceEntry> entries;
 
   int get totalDebit => entries.fold<int>(0, (sum, entry) => sum + entry.debit);
-  int get totalCredit => entries.fold<int>(0, (sum, entry) => sum + entry.credit);
+  int get totalCredit =>
+      entries.fold<int>(0, (sum, entry) => sum + entry.credit);
 }
 
 class _TrialBalanceEntry {
@@ -254,8 +365,12 @@ class _GroupCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.8),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              color: theme.colorScheme.surfaceContainerHighest.withValues(
+                alpha: 0.8,
+              ),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
             ),
             child: _TableRow(
               code: group.title,
@@ -274,12 +389,8 @@ class _GroupCard extends StatelessWidget {
           const Divider(height: 1),
           ...group.entries.asMap().entries.expand((entry) {
             final item = entry.value;
-            return [
-              _AccountRow(entry: item),
-              const Divider(height: 1),
-            ];
-          }).toList()
-            ..removeLast(),
+            return [_AccountRow(entry: item), const Divider(height: 1)];
+          }).toList()..removeLast(),
           const Divider(height: 1),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -314,13 +425,21 @@ class _AccountRow extends StatelessWidget {
     return _TableRow(
       code: entry.code.isEmpty ? '—' : entry.code,
       name: entry.name,
-      debit: entry.debit == 0 ? '—' : '₹${TrialBalancePage._formatIndian(entry.debit)}',
-      credit: entry.credit == 0 ? '—' : '₹${TrialBalancePage._formatIndian(entry.credit)}',
+      debit: entry.debit == 0
+          ? '—'
+          : '₹${TrialBalancePage._formatIndian(entry.debit)}',
+      credit: entry.credit == 0
+          ? '—'
+          : '₹${TrialBalancePage._formatIndian(entry.credit)}',
       textStyle: theme.textTheme.bodyMedium?.copyWith(
         fontWeight: FontWeight.w500,
       ),
-      debitColor: entry.debit == 0 ? theme.colorScheme.onSurface.withValues(alpha: 0.45) : theme.colorScheme.error,
-      creditColor: entry.credit == 0 ? theme.colorScheme.onSurface.withValues(alpha: 0.45) : AppTheme.success,
+      debitColor: entry.debit == 0
+          ? theme.colorScheme.onSurface.withValues(alpha: 0.45)
+          : theme.colorScheme.error,
+      creditColor: entry.credit == 0
+          ? theme.colorScheme.onSurface.withValues(alpha: 0.45)
+          : AppTheme.success,
       debitAlign: TextAlign.right,
       creditAlign: TextAlign.right,
     );
@@ -404,18 +523,14 @@ class _TableRow extends StatelessWidget {
             child: Text(
               code,
               style: textStyle?.copyWith(
-                color: code == '—' || code.isEmpty ? muted : textStyle?.color ?? theme.colorScheme.onSurface,
+                color: code == '—' || code.isEmpty
+                    ? muted
+                    : textStyle?.color ?? theme.colorScheme.onSurface,
               ),
             ),
           ),
           const SizedBox(width: 8),
-          Expanded(
-            flex: 5,
-            child: Text(
-              name,
-              style: textStyle,
-            ),
-          ),
+          Expanded(flex: 5, child: Text(name, style: textStyle)),
           const SizedBox(width: 8),
           Expanded(
             flex: 2,
@@ -423,7 +538,11 @@ class _TableRow extends StatelessWidget {
               debit,
               textAlign: debitAlign,
               style: textStyle?.copyWith(
-                color: debit == '—' ? muted : debitColor ?? textStyle?.color ?? theme.colorScheme.onSurface,
+                color: debit == '—'
+                    ? muted
+                    : debitColor ??
+                          textStyle?.color ??
+                          theme.colorScheme.onSurface,
               ),
             ),
           ),
@@ -434,7 +553,11 @@ class _TableRow extends StatelessWidget {
               credit,
               textAlign: creditAlign,
               style: textStyle?.copyWith(
-                color: credit == '—' ? muted : creditColor ?? textStyle?.color ?? theme.colorScheme.onSurface,
+                color: credit == '—'
+                    ? muted
+                    : creditColor ??
+                          textStyle?.color ??
+                          theme.colorScheme.onSurface,
               ),
             ),
           ),
