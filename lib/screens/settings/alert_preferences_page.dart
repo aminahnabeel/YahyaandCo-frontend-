@@ -221,7 +221,9 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
                       Text(
                         'john@example.com',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
+                          ),
                         ),
                       ),
                     ],
@@ -230,9 +232,7 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
               ],
             ),
             const SizedBox(height: 16),
-            Divider(
-              color: theme.colorScheme.outline.withValues(alpha: 0.2),
-            ),
+            Divider(color: theme.colorScheme.outline.withValues(alpha: 0.2)),
             const SizedBox(height: 16),
             _buildProfileDetail(
               context: context,
@@ -338,7 +338,9 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
           ),
           child: Icon(
             icon,
-            color: value ? theme.colorScheme.primary : theme.colorScheme.outline,
+            color: value
+                ? theme.colorScheme.primary
+                : theme.colorScheme.outline,
             size: 24,
           ),
         ),
@@ -349,10 +351,7 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
             color: value ? theme.colorScheme.primary : null,
           ),
         ),
-        subtitle: Text(
-          description,
-          style: theme.textTheme.bodySmall,
-        ),
+        subtitle: Text(description, style: theme.textTheme.bodySmall),
         trailing: Switch.adaptive(
           value: value,
           onChanged: (val) => onChanged(val),
@@ -439,9 +438,7 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
         Expanded(
           child: Text(
             text,
-            style: theme.textTheme.bodySmall?.copyWith(
-              height: 1.4,
-            ),
+            style: theme.textTheme.bodySmall?.copyWith(height: 1.4),
           ),
         ),
       ],
@@ -463,8 +460,9 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        foregroundColor:
-            enabled ? theme.colorScheme.primary : theme.colorScheme.outline,
+        foregroundColor: enabled
+            ? theme.colorScheme.primary
+            : theme.colorScheme.outline,
         side: BorderSide(
           color: enabled
               ? theme.colorScheme.primary.withValues(alpha: 0.5)
@@ -510,7 +508,9 @@ class _AlertPreferencesPageState extends State<AlertPreferencesPage> {
             content: const Text('Alert preferences saved successfully!'),
             duration: const Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         );

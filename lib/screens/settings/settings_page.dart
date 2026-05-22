@@ -240,7 +240,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   label: strings.logoutLabel,
                   fullWidth: true,
                   onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    Navigator.of(
+                      context,
+                      rootNavigator: true,
+                    ).pushAndRemoveUntil(
                       MaterialPageRoute<void>(
                         builder: (_) => const LoginScreen(),
                       ),
