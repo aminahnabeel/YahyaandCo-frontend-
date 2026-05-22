@@ -535,7 +535,7 @@ class _DownloadBottomSheetState extends State<_DownloadBottomSheet> {
       builder: (context, scrollController) => SingleChildScrollView(
         controller: scrollController,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -596,10 +596,7 @@ class _DownloadBottomSheetState extends State<_DownloadBottomSheet> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'From Date',
-                            style: theme.textTheme.bodySmall,
-                          ),
+                          Text('From Date', style: theme.textTheme.bodySmall),
                           const SizedBox(height: 8),
                           TextFormField(
                             initialValue: _fromDate.toString().split(' ')[0],
@@ -630,10 +627,7 @@ class _DownloadBottomSheetState extends State<_DownloadBottomSheet> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'To Date',
-                            style: theme.textTheme.bodySmall,
-                          ),
+                          Text('To Date', style: theme.textTheme.bodySmall),
                           const SizedBox(height: 8),
                           TextFormField(
                             initialValue: _toDate.toString().split(' ')[0],
