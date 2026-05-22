@@ -219,8 +219,13 @@ class BalanceSheetPage extends StatelessWidget {
   }
 
   static void _downloadBalanceSheet(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Downloading Balance Sheet...')),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => const _DownloadBottomSheet(reportName: 'Balance Sheet'),
     );
   }
 }
@@ -472,5 +477,286 @@ class _SummaryCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _DownloadBottomSheet extends StatefulWidget {
+  const _DownloadBottomSheet({required this.reportName});
+
+  final String reportName;
+
+  @override
+  State<_DownloadBottomSheet> createState() => _DownloadBottomSheetState();
+}
+
+class _DownloadBottomSheetState extends State<_DownloadBottomSheet> {
+  String _dateRange = 'all'; // all, today, last7, last30, custom
+  String _format = 'pdf'; // pdf, csv
+  bool _includeZeroBalances = true;
+  DateTime _fromDate = DateTime.now();
+  DateTime _toDate = DateTime.now();
+
+  @override
+  Widget build(BuildContext context) {
+    final tr = appLanguageController.tr;
+    final theme = Theme.of(context);
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.7,
+      minChildSize: 0.5,
+      maxChildSize: 0.95,
+      builder: (context, scrollController) => SingleChildScrollView(
+        controller: scrollController,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Download ${widget.reportName}',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Text(
+                tr('Date Range'),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...[
+                ('all', 'All Transactions'),
+                ('today', 'Today'),
+                ('last7', 'Last 7 Days'),
+                ('last30', 'Last 30 Days'),
+                ('custom', 'Custom Range'),
+              ].map((option) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: GestureDetector(
+                    onTap: () => setState(() => _dateRange = option.$1),
+                    child: Row(
+                      children: [
+                        Radio(
+                          value: option.$1,
+                          groupValue: _dateRange,
+                          onChanged: (value) {
+                            setState(() => _dateRange = value ?? 'all');
+                          },
+                        ),
+                        Text(option.$2),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+              if (_dateRange == 'custom') ...[
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'From Date',
+                            style: theme.textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 8),
+                          TextFormField(
+                            initialValue: _fromDate.toString().split(' ')[0],
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              suffixIcon: const Icon(Icons.calendar_today),
+                            ),
+                            onTap: () async {
+                              final date = await showDatePicker(
+                                context: context,
+                                initialDate: _fromDate,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime.now(),
+                              );
+                              if (date != null) {
+                                setState(() => _fromDate = date);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'To Date',
+                            style: theme.textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 8),
+                          TextFormField(
+                            initialValue: _toDate.toString().split(' ')[0],
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              suffixIcon: const Icon(Icons.calendar_today),
+                            ),
+                            onTap: () async {
+                              final date = await showDatePicker(
+                                context: context,
+                                initialDate: _toDate,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime.now(),
+                              );
+                              if (date != null) {
+                                setState(() => _toDate = date);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              const SizedBox(height: 24),
+              Text(
+                tr('Download Format'),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => setState(() => _format = 'pdf'),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: _format == 'pdf'
+                                ? theme.colorScheme.primary
+                                : Colors.grey[300]!,
+                            width: _format == 'pdf' ? 2 : 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          color: _format == 'pdf'
+                              ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                              : Colors.transparent,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'PDF',
+                            style: TextStyle(
+                              color: _format == 'pdf'
+                                  ? theme.colorScheme.primary
+                                  : Colors.grey[600],
+                              fontWeight: _format == 'pdf'
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => setState(() => _format = 'csv'),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: _format == 'csv'
+                                ? theme.colorScheme.primary
+                                : Colors.grey[300]!,
+                            width: _format == 'csv' ? 2 : 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          color: _format == 'csv'
+                              ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                              : Colors.transparent,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'CSV',
+                            style: TextStyle(
+                              color: _format == 'csv'
+                                  ? theme.colorScheme.primary
+                                  : Colors.grey[600],
+                              fontWeight: _format == 'csv'
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              CheckboxListTile(
+                value: _includeZeroBalances,
+                onChanged: (value) {
+                  setState(() => _includeZeroBalances = value ?? true);
+                },
+                title: Text('Include Zero Balances'),
+                contentPadding: EdgeInsets.zero,
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _handleDownload,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    backgroundColor: theme.colorScheme.primary,
+                  ),
+                  child: Text(
+                    'Download ${_format.toUpperCase()}',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleDownload() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Downloading ${widget.reportName} as ${_format.toUpperCase()}...',
+        ),
+      ),
+    );
+    Navigator.pop(context);
   }
 }
