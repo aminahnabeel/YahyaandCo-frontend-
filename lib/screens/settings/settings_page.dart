@@ -4,6 +4,7 @@ import '../starting/language/app_language.dart';
 import '../../theme/theme_controller.dart';
 import '../../widgets/button.dart';
 import '../starting/auth/signin_screen.dart';
+import 'alert_preferences_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -189,7 +190,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: strings.emailPreferencesLabel,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const AlertPreferencesPage(),
+                    ),
+                  );
+                },
               ),
               _tile(
                 leading: Icon(
