@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_dashboard.dart';
 import '../transactions/transactions_page.dart';
 import '../accounts/accounts_page.dart';
+import '../reminders/reminder_screen.dart';
 import '../reports/reports_page.dart';
 import '../settings/settings_page.dart';
 import '../starting/language/app_language.dart';
@@ -18,7 +19,7 @@ class DashboardMainScreen extends StatefulWidget {
 class _DashboardMainScreenState extends State<DashboardMainScreen> {
   int _currentIndex = 0;
   final List<GlobalKey<NavigatorState>> _navigatorKeys = List.generate(
-    4,
+    5,
     (_) => GlobalKey<NavigatorState>(),
   );
 
@@ -61,6 +62,7 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
       strings.homeTabTitle,
       strings.transactionsTabTitle,
       strings.accountsTabTitle,
+      appLanguageController.tr('Reminders'),
       appLanguageController.tr('Reports'),
     ];
 
@@ -68,6 +70,7 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
       HomeDashboard(businessName: widget.businessName),
       const TransactionsPage(),
       const AccountsPage(),
+      const ReminderScreen(),
       const ReportsPage(),
     ];
 
@@ -119,6 +122,10 @@ class _DashboardMainScreenState extends State<DashboardMainScreen> {
             BottomNavigationBarItem(
               icon: const Icon(Icons.account_balance),
               label: strings.accountsTabTitle,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.notifications_active_outlined),
+              label: appLanguageController.tr('Reminders'),
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.assessment),

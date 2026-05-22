@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../starting/language/app_language.dart';
+import '../reminders/payment_reminder_controller.dart';
 import '../../widgets/button.dart';
 import '../../widgets/appbar.dart';
 
@@ -23,6 +24,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   bool _isDebit = true;
   String? _paymentMethod = 'Cash';
   DateTime? _date;
+  DateTime? _dueDate;
+  bool _isCompleted = false;
   final TextEditingController _notesController = TextEditingController();
   File? _attachedImage;
 
@@ -49,6 +52,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
           _date = DateTime.tryParse(d['date'].toString());
         } catch (_) {}
       }
+      if (d['dueDate'] != null) {
+        try {
+          _dueDate = DateTime.tryParse(d['dueDate'].toString());
+        } catch (_) {}
+      }
+      final status = d['status']?.toString().toLowerCase();
+      _isCompleted = status == 'completed';
       _notesController.text = d['notes']?.toString() ?? '';
       if (d['imagePath'] != null) {
         try {
@@ -85,16 +95,51 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     if (picked != null) setState(() => _date = picked);
   }
 
+  Future<void> _pickDueDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _dueDate ?? _date ?? now,
+      firstDate: DateTime(now.year - 5),
+      lastDate: DateTime(now.year + 5),
+    );
+    if (picked != null) setState(() => _dueDate = picked);
+  }
+
   void _save() {
-    // For now simply pop with a simple result map — integrate with backend later.
+    final parsedAmount = double.tryParse(
+          _amountController.text.replaceAll(',', '').trim(),
+        ) ??
+        0;
+    final id = widget.initialData?['id']?.toString() ??
+        DateTime.now().microsecondsSinceEpoch.toString();
+
+    final reminder = PaymentReminder(
+      id: id,
+      title: _titleController.text.trim().isEmpty
+          ? 'New Transaction'
+          : _titleController.text.trim(),
+      account: _account ?? 'Main Bank Account',
+      amount: parsedAmount,
+      isDebit: _isDebit,
+      paymentMethod: _paymentMethod ?? 'Cash',
+      transactionDate: _date ?? DateTime.now(),
+      dueDate: _dueDate ?? _date ?? DateTime.now(),
+      status: _isCompleted
+          ? PaymentReminderStatus.completed
+          : PaymentReminderStatus.pending,
+      notes: _notesController.text,
+    );
+
+    if (widget.initialData?.containsKey('id') == true) {
+      updatePaymentReminder(reminder);
+    } else {
+      addPaymentReminder(reminder);
+    }
+
     final data = {
-      'title': _titleController.text,
-      'account': _account,
-      'amount': _amountController.text,
+      ...reminder.toMap(),
       'type': _isDebit ? 'debit' : 'credit',
-      'paymentMethod': _paymentMethod,
-      'date': _date?.toIso8601String(),
-      'notes': _notesController.text,
     };
     Navigator.of(context).pop(data);
   }
@@ -301,9 +346,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                       ),
                       const SizedBox(height: 12),
 
-                      // Date
+                      // Transaction date
                       Text(
-                        strings.dateLabel,
+                        'Transaction Date',
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
@@ -335,6 +380,48 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         ),
                       ),
                       const SizedBox(height: 12),
+
+                      // Due date
+                      Text(
+                        'Due Date',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 8),
+                      InkWell(
+                        onTap: _pickDueDate,
+                        borderRadius: BorderRadius.circular(8),
+                        child: InputDecorator(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                _dueDate == null
+                                    ? 'dd/mm/yyyy'
+                                    : '${_dueDate!.day}/${_dueDate!.month}/${_dueDate!.year}',
+                              ),
+                              Icon(
+                                Icons.event_available,
+                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
+                      CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        value: _isCompleted,
+                        onChanged: (value) => setState(() => _isCompleted = value ?? false),
+                        title: const Text('Mark as completed'),
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                      const SizedBox(height: 6),
 
                       // Notes
                       Text(
